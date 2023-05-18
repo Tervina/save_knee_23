@@ -1,0 +1,4 @@
+/build/
+/.flutter-plugins
+/.flutter-plugins-dependencies
+/assets/model/model.tflite
