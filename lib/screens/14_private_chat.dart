@@ -9,7 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 final _fireStore=FirebaseFirestore.instance;
 final _auth=FirebaseAuth.instance;
 final current_user=_auth.currentUser;
-late User user;
+late User loggedInUser;
 class Chat extends StatefulWidget {
   const Chat({Key? key}) : super(key: key);
 
@@ -22,38 +22,20 @@ class Chat extends StatefulWidget {
 }
 
 class _ChatState extends State<Chat> {
-  List<Message> messages = [
-    Message(
-      text: 'yes sure',
-      date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
-      isSentByMe: true,
-      sender: current_user!.email!,
-    ),
-    Message(
-      text: 'Helloooo',
-      date: DateTime.now().subtract(Duration(days: 3, minutes: 4)),
-      isSentByMe: false,
-      sender: current_user!.email!,
-    ),
-    Message(
-      text: 'how are you?',
-      date: DateTime.now().subtract(Duration(days: 4, minutes: 7)),
-      isSentByMe: true,
-      sender: current_user!.email!,
-    ),
-    Message(
-      text: 'fine',
-      date: DateTime.now().subtract(Duration(days: 5, minutes: 3)),
-      isSentByMe: false,
-      sender: current_user!.email!,
-    ),
-    Message(
-      text: 'Hiiii',
-      date: DateTime.now().subtract(Duration(days: 6, minutes: 2)),
-      isSentByMe: false,
-      sender: current_user!.email!,
-    ),
-  ].reversed.toList();
+  void getMessages()async{
+    final messages= await _fireStore.collection('chats').get();
+    for(var message in messages.docs ){
+      print(message.data);
+    }
+  }
+  void messagesStream()async{
+    await for(var snapShot in _fireStore.collection('chats').snapshots()){
+      for (var message in snapShot.docs){
+
+      }
+    }
+  }
+
   TextEditingController text_control = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -98,49 +80,7 @@ class _ChatState extends State<Chat> {
       ),
       body: Column(
         children: [
-          Expanded(
-            flex: 12,
-            child: GroupedListView(
-              reverse: true,
-              useStickyGroupSeparators: true,
-              floatingHeader: true,
-              order: GroupedListOrder.DESC,
-              elements: messages,
-              groupBy: (message) => DateTime(
-                message.date.year,
-                message.date.month,
-                message.date.day,
-              ),
-              padding: EdgeInsets.all(8).w,
-              groupHeaderBuilder: (Message message) => SizedBox(
-                height: .04*bodyHeight,
-                child: Center(
-                  child: Card(
-                    color: Theme.of(context).primaryColor,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0).w,
-                      child: Text(
-                        DateFormat.yMMMd().format(message.date),
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              itemBuilder: (context, Message message) => Align(
-                alignment: message.isSentByMe
-                    ? Alignment.centerRight
-                    : Alignment.centerLeft,
-                child: Card(
-                  elevation: 8,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12).w,
-                    child: Text(message.text),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          MesaageStream(),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(10).w,
@@ -156,16 +96,14 @@ class _ChatState extends State<Chat> {
                         borderRadius: BorderRadius.circular(20).w),
                     suffixIcon: GestureDetector(
                         onTap: () {
-                          final message = Message(
-                              text: text_control.text,
-                              date: DateTime.now(),
-                              isSentByMe: true,
-                            sender: current_user!.email!,
-                          );
-                          setState(() {
-                            messages.add(message);
-                            text_control.clear();
+                          _fireStore.collection('chats').add({
+                            'msgFrom':current_user!.email,
+                            'msgTo':'dr/aya',
+                            'text':text_control.text,
+                            'timeStamp':Timestamp.now().toString(),
                           });
+                          text_control.clear();
+
                         },
                         child: Icon(
                           Icons.send,
@@ -176,14 +114,7 @@ class _ChatState extends State<Chat> {
                     hintStyle: TextStyle(color: Colors.white),
                   ),
                   style: TextStyle(color: Colors.white),
-                  onSubmitted: (text) {
-                    final message = Message(
-                        text: text, date: DateTime.now(), isSentByMe: true,sender: current_user!.email!,);
-                    setState(() {
-                      messages.add(message);
-                      text_control.clear();
-                    });
-                  },
+
                 ),
               ),
             ),
@@ -202,11 +133,11 @@ class Message {
 }*/
 
 class Message extends StatelessWidget {
-  Message({required this.sender,required this.text,required this.isSentByMe,required this.date});
+  Message({required this.otherUser,required this.text,required this.isSentByMe,required this.timeStamp});
   final bool isSentByMe;
-  final String sender;
+  final String otherUser;
   final String text;
-  final DateTime date;
+  final String timeStamp;
   @override
   Widget build(BuildContext context) {
     return  Padding(
@@ -214,7 +145,7 @@ class Message extends StatelessWidget {
       child: Column(
         crossAxisAlignment: isSentByMe?CrossAxisAlignment.end:CrossAxisAlignment.start,
         children: [
-          Text(sender,style: TextStyle(
+          Text(otherUser,style: TextStyle(
               fontSize: 12,
               color: Colors.black
           ),),
@@ -227,7 +158,7 @@ class Message extends StatelessWidget {
                 bottomRight: Radius.circular(30)
             ),
             color: isSentByMe?Colors.lightBlueAccent:Colors.white,
-            child: Text('text from $sender',
+            child: Text('text from $otherUser',
               style: TextStyle(
                   fontSize: 15,
                   color: isSentByMe? Colors.white:Colors.black
@@ -238,3 +169,44 @@ class Message extends StatelessWidget {
     );;
   }
 }
+class MesaageStream extends StatelessWidget {
+  const MesaageStream({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var chats=_fireStore.collection('chats').doc(current_user!.uid);
+
+    return StreamBuilder<QuerySnapshot>(
+      stream: _fireStore.collection('chats').snapshots(),
+        builder: (context,snapshot){
+          if(!snapshot.hasData){
+            return Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.deepPurple,
+              ),
+            );
+          }
+          final messages=snapshot.data!.docs.reversed;
+          List<Message> message_list=[];
+          for(var item in messages){
+            final msgFrom=item['msgFrom'];
+            final msgTo=item['msgTo'];
+            final text=item['text'];
+            final timeStamp=item['timeStamp'];
+            final messageBubble=Message(
+                otherUser: msgFrom, text: text, isSentByMe: true, timeStamp: timeStamp);
+            message_list.add(messageBubble);
+          }
+          return Expanded(
+            child: ListView(
+              padding: EdgeInsets.all(10),
+              reverse: true,
+              children: message_list,
+            ),
+          );
+        }
+
+    );
+  }
+}
+
