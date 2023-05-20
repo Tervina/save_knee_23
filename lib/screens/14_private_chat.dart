@@ -5,6 +5,8 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:save_knee_23/screens/00_logo_screen.dart';
+import 'package:save_knee_23/screens/06_home_screen.dart';
 
 final _fireStore=FirebaseFirestore.instance;
 final _auth=FirebaseAuth.instance;
@@ -12,6 +14,7 @@ final current_user=_auth.currentUser;
 late User loggedInUser;
 class Chat extends StatefulWidget {
   const Chat({Key? key}) : super(key: key);
+
 
   @override
   void getCurrentUser(){
@@ -22,6 +25,9 @@ class Chat extends StatefulWidget {
 }
 
 class _ChatState extends State<Chat> {
+  final String currentUserName="Andrew Ashraf";
+  final String otherUserName="Dr. Aya Adel";
+
   void getMessages()async{
     final messages= await _fireStore.collection('chats').get();
     for(var message in messages.docs ){
@@ -51,17 +57,19 @@ class _ChatState extends State<Chat> {
           child: IconButton(
             icon: Icon(
               Icons.arrow_back_ios_new,
-              color: Theme.of(context).primaryColor,
+              color: Colors.blue.shade900,
               size: 50,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
         ),
         centerTitle: true,
         title: Text(
-          "Dr/shimaa Elsawy",
+          otherUserName,
           style: TextStyle(
-              color: Theme.of(context).primaryColor,
+              color: Colors.blue.shade900,
               fontSize: 30.sp,
               fontWeight: FontWeight.bold),
         ),
@@ -71,51 +79,52 @@ class _ChatState extends State<Chat> {
               child: IconButton(
                 icon: Icon(
                   Icons.logout_outlined,
-                  color: Theme.of(context).primaryColor,
+                  color: Colors.blue.shade900,
                   size: 50,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  _auth.signOut();
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>LogoScreen()));
+                },
               )),
         ],
       ),
       body: Column(
+        mainAxisSize: MainAxisSize.max,
         children: [
-          MesaageStream(),
-          Expanded(
+          Expanded(child: MesaageStream(currentUserName,otherUserName)),
+          Container(
+            height: .1*bodyHeight,
             child: Padding(
               padding: const EdgeInsets.all(10).w,
-              child: Container(
-                height: .1*bodyHeight,
-                child: TextField(
-                  controller: text_control,
-                  //TextEditingController(text: text_control.text),
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Theme.of(context).primaryColor,
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20).w),
-                    suffixIcon: GestureDetector(
-                        onTap: () {
-                          _fireStore.collection('chats').add({
-                            'msgFrom':current_user!.email,
-                            'msgTo':'dr/aya',
-                            'text':text_control.text,
-                            'timeStamp':Timestamp.now().toString(),
-                          });
-                          text_control.clear();
+              child: TextField(
+                controller: text_control,
+                //TextEditingController(text: text_control.text),
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.blue.shade900,
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20).w),
+                  suffixIcon: GestureDetector(
+                      onTap: () {
+                        _fireStore.collection('chats').doc(currentUserName).collection(otherUserName).add({
+                          'isSentByMe':true,
+                          'text':text_control.text,
+                          'timeStamp':DateTime.now().toString(),
+                        });
+                        text_control.clear();
 
-                        },
-                        child: Icon(
-                          Icons.send,
-                          color: Colors.white,
-                        )),
-                    contentPadding: EdgeInsets.all(20).w,
-                    hintText: 'Type your message here',
-                    hintStyle: TextStyle(color: Colors.white),
-                  ),
-                  style: TextStyle(color: Colors.white),
-
+                      },
+                      child: Icon(
+                        Icons.send,
+                        color: Colors.white,
+                      )),
+                  contentPadding: EdgeInsets.all(20).w,
+                  hintText: 'Type your message here',
+                  hintStyle: TextStyle(color: Colors.white),
                 ),
+                style: TextStyle(color: Colors.white),
+
               ),
             ),
           ),
@@ -133,11 +142,12 @@ class Message {
 }*/
 
 class Message extends StatelessWidget {
-  Message({required this.otherUser,required this.text,required this.isSentByMe,required this.timeStamp});
+  Message({required this.text,required this.isSentByMe,required this.timeStamp,required this.curruntUserName,required this.otherUserName,});
   final bool isSentByMe;
-  final String otherUser;
   final String text;
   final String timeStamp;
+  final String curruntUserName;
+  final String otherUserName;
   @override
   Widget build(BuildContext context) {
     return  Padding(
@@ -145,11 +155,9 @@ class Message extends StatelessWidget {
       child: Column(
         crossAxisAlignment: isSentByMe?CrossAxisAlignment.end:CrossAxisAlignment.start,
         children: [
-          Text(otherUser,style: TextStyle(
-              fontSize: 12,
-              color: Colors.black
-          ),),
+
           Material(
+
             elevation:5.0,
             borderRadius: isSentByMe?BorderRadius.only(topLeft: Radius.circular(30),bottomLeft: Radius.circular(30),bottomRight: Radius.circular(30)):
             BorderRadius.only(
@@ -157,27 +165,35 @@ class Message extends StatelessWidget {
                 bottomLeft: Radius.circular(30),
                 bottomRight: Radius.circular(30)
             ),
-            color: isSentByMe?Colors.lightBlueAccent:Colors.white,
-            child: Text('text from $otherUser',
-              style: TextStyle(
-                  fontSize: 15,
-                  color: isSentByMe? Colors.white:Colors.black
-              ),),
+            color: isSentByMe?Colors.blue.shade900:Colors.grey.shade400,
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Text(text,
+                style: TextStyle(
+                    fontSize: 15,
+                    color: isSentByMe? Colors.white:Colors.black
+                ),),
+            ),
           ),
+          Text(timeStamp,style: TextStyle(
+              fontSize: 12,
+              color: Colors.black
+          ),),
         ],
       ),
     );;
   }
 }
 class MesaageStream extends StatelessWidget {
-  const MesaageStream({Key? key}) : super(key: key);
-
+  final String curruntUserName;
+  final String otherUserName;
+  MesaageStream(this.curruntUserName, this.otherUserName);
   @override
   Widget build(BuildContext context) {
-    var chats=_fireStore.collection('chats').doc(current_user!.uid);
+    var chats=_fireStore.collection('chats').doc(curruntUserName).collection(otherUserName).orderBy('timeStamp',descending: true);
 
     return StreamBuilder<QuerySnapshot>(
-      stream: _fireStore.collection('chats').snapshots(),
+      stream: chats.snapshots(),
         builder: (context,snapshot){
           if(!snapshot.hasData){
             return Center(
@@ -186,15 +202,14 @@ class MesaageStream extends StatelessWidget {
               ),
             );
           }
-          final messages=snapshot.data!.docs.reversed;
+          final messages=snapshot.data!.docs;
           List<Message> message_list=[];
           for(var item in messages){
-            final msgFrom=item['msgFrom'];
-            final msgTo=item['msgTo'];
+            final isSentByMe=item['isSentByMe'];
             final text=item['text'];
             final timeStamp=item['timeStamp'];
             final messageBubble=Message(
-                otherUser: msgFrom, text: text, isSentByMe: true, timeStamp: timeStamp);
+                 text: text, isSentByMe: isSentByMe, timeStamp: timeStamp,curruntUserName: curruntUserName,otherUserName: otherUserName,);
             message_list.add(messageBubble);
           }
           return Expanded(

@@ -4,9 +4,16 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="77df0e9c-7717-4a31-874b-1b6b68115ded" name="Changes" comment="">
+    <list default="true" id="77df0e9c-7717-4a31-874b-1b6b68115ded" name="Changes" comment="ay 7aga">
+      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/.filecache" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/.filecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/app.dill" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/app.dill" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/debug_android_application.stamp" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/debug_android_application.stamp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/flutter_assets.d" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/flutter_assets.d" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/kernel_snapshot.d" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/kernel_snapshot.d" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/kernel_snapshot.stamp" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/kernel_snapshot.stamp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/14_private_chat.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/14_private_chat.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/15_chat_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/15_chat_page.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +59,14 @@
       <option name="presentableId" value="Default" />
       <updated>1684340388432</updated>
     </task>
+    <task id="LOCAL-00001" summary="ay 7aga">
+      <created>1684525661255</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1684525661255</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -64,5 +79,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="ay 7aga" />
+    <option name="LAST_COMMIT_MESSAGE" value="ay 7aga" />
   </component>
 </project>
