@@ -153,7 +153,7 @@ class emg_result extends StatelessWidget {
                           onPressed: () {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                                  return HomePage();
+                                  return HomeScreen();
                                 }));
                           },
                           icon: Icon(Icons.menu_book_outlined,

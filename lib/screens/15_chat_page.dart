@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../constants.dart';
 import '/chat_model.dart';
 
 import '../chat_model.dart';
@@ -58,6 +59,7 @@ class _ChatPageState extends State<ChatPage> {
         messageText: "Physiotherapy session on Thursday, waiting for you",
         imageURL: "images/doctor4.png"),
   ];
+
  @override
   void initState() {
     // TODO: implement initState
@@ -66,6 +68,15 @@ class _ChatPageState extends State<ChatPage> {
   }
   @override
   Widget build(BuildContext context) {
+    List<Doctor> result=[];
+    SearchDoc(String value){
+      result.clear();
+      for(Doctor doctor in drList){
+        if(doctor.name.contains(value)){
+          result.add(doctor);
+        }
+      }
+    }
     final screenHeight= MediaQuery.of(context).size.height;
     final screenWidth= MediaQuery.of(context).size.width;
     final bodyHeight=screenHeight-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom;
@@ -119,13 +130,21 @@ class _ChatPageState extends State<ChatPage> {
             Padding(
               padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
               child: TextField(
+                onChanged: (value){
+                  SearchDoc(value);
+                },
                 decoration: InputDecoration(
                   hintText: "Search...",
                   hintStyle: TextStyle(color: Colors.grey.shade600),
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: Colors.grey.shade600,
-                    size: 20,
+                  prefixIcon: InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatPage(result)));
+                    },
+                    child: Icon(
+                      Icons.search,
+                      color: Colors.grey.shade600,
+                      size: 20,
+                    ),
                   ),
                   filled: true,
                   fillColor: Colors.grey.shade100,

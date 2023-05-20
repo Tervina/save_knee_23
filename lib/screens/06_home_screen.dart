@@ -1,12 +1,16 @@
 
+import 'package:save_knee_23/constants.dart';
+
+import 'package:save_knee_23/screens/07_home_page.dart';
+import 'package:save_knee_23/screens/08_time_table.dart';
 import 'package:save_knee_23/screens/10_xray.dart';
 import 'package:save_knee_23/screens/12_emg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as https;
+import 'package:save_knee_23/screens/14_private_chat.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '/scratch.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,8 +27,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  final searchController=TextEditingController();
  final user =FirebaseAuth.instance.currentUser;
-
+List<Doctor> result=[];
+SearchDoc(String value){
+  result.clear();
+  for(Doctor doctor in drList){
+    if(doctor.name.contains(value)){
+      result.add(doctor);
+    }
+  }
+}
   @override
   Widget build(BuildContext context) {
 
@@ -153,12 +166,22 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: SizedBox(
                         height: bodyHeight*.045,
                         child: TextField(
+                          controller: searchController,
+                          onChanged: (value){
+
+                            SearchDoc(value);
+                          },
                           decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
-                              prefixIcon: Icon(
-                                Icons.search,
-                                color: Colors.grey,
+                              prefixIcon: IconButton(
+                                onPressed: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                    return HomePage(result);
+                                  }));
+                                },
+                               icon:Icon(Icons.search) ,
+                                color: Colors.blue.shade900,
                               ),
                               suffixIcon: Icon(
                                 Icons.close,
@@ -199,7 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       TextStyle(fontWeight: FontWeight.bold, fontSize: 25.sp),
                     ),
                     Container(
-                      height: bodyHeight*.45,
+                      height: 200.h,
 
                       /*decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
@@ -209,10 +232,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemCount: drList.length,
                         itemBuilder: (BuildContext context, int index) {
                           return DoctorCard(
-                              drList[index].imgPath,
-                              drList[index].name,
-                              drList[index].department,
-                              drList[index].rate);
+                              imgPath: drList[index].imgPath,
+                              name: drList[index].name,
+                              department: drList[index].department,
+                              rate: drList[index].rate,
+                            myFunction: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>TimeTable()));
+                            },
+                          );
                         },
                       ),
                     ),
@@ -227,11 +254,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           scrollDirection: Axis.horizontal,
                           itemCount: drList.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return ContantedDoc(
-                                drList[index].rate,
-                                drList[index].imgPath,
-                                drList[index].salary,
-                                drList[index].name);
+                            return ContactedDoc(
+                                rate:drList[index].rate,
+                                imgPath:drList[index].imgPath,
+                                salary:drList[index].salary.toString(),
+                                name:drList[index].name,myFunction: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>Chat()));
+                            },);
                           }),
                     ),
                   ],
@@ -258,100 +287,130 @@ Widget MyCard(String url) {
   );
 }
 
-Widget DoctorCard(String imgPath, String name, String dep, double rate) {
-  return Padding(
-    padding: const EdgeInsets.all(8.0).w,
-    child: GestureDetector(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20).w,
-        child: Container(
-          // height: 50,
-          color: Color(0xffeaeaea),
-          width: 170.w,
 
-          /*decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20), color: Color(0xffeaeaea)
-              //0xffD9DAD6)
-              //(0xffE5E1DA),
-              ),*/
-          child: Column(
-            children: [
-              Image.network(imgPath),
-              Padding(
-                padding: const EdgeInsets.only(top: 1.5).w,
-                child: Text(
-                  name,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
-                ),
-              ),
-              Text(dep),
-              Padding(
-                padding: const EdgeInsets.only(top: 3.0).w,
-                child: RatingBarIndicator(
-                  rating: rate,
-                  itemBuilder: (context, index) => Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                  ),
-                  itemCount: 5,
-                  itemSize: 30,
-                  direction: Axis.horizontal,
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    ),
-  );
-}
 
-Widget ContantedDoc(double rate, String imgPath, int salary, String name) {
-  return Padding(
-    padding: const EdgeInsets.all(8.0).w,
-    child: ClipRRect(
-      borderRadius: BorderRadius.circular(20).w,
+class DoctorCard extends StatelessWidget {
+ final String imgPath;
+ final String name;
+ final String department;
+ final double rate;
+ final Function myFunction;
+ DoctorCard({required this.imgPath, required this.name, required this.department, required this.rate, required this.myFunction});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0).w,
       child: GestureDetector(
-        child: Container(
-          color: Color(0xffeaeaea),
-          width: 170.w,
-          child: Padding(
-            padding: const EdgeInsets.all(10).w,
+        onTap:(){
+          myFunction();
+        }
+
+        ,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20).w,
+          child: Container(
+            // height: 50,
+            color: Color(0xffeaeaea),
+            width: 170.w,
+
+            /*decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20), color: Color(0xffeaeaea)
+                //0xffD9DAD6)
+                //(0xffE5E1DA),
+                ),*/
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(Icons.favorite_border, color: Colors.red),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.star,
-                          color: Colors.yellow,
-                        ),
-                        Text(rate.toString()),
-                      ],
+                Image.network(imgPath,height: 110.h,fit: BoxFit.fitHeight,),
+                Padding(
+                  padding: const EdgeInsets.only(top: 1.5).w,
+                  child: Text(
+                    name,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
+                  ),
+                ),
+                Text(department),
+                Padding(
+                  padding: const EdgeInsets.only(top: 3.0).w,
+                  child: RatingBarIndicator(
+                    rating: rate,
+                    itemBuilder: (context, index) => Icon(
+                      Icons.star,
+                      color: Colors.amber,
                     ),
-                  ],
-                ),
-                CircleAvatar(
-                  radius: 60.r,
-                  backgroundImage: NetworkImage(imgPath),
-                ),
-                Text(
-                  name,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
-                ),
-                Text(
-                  "\$ ${salary}/hours",
-                  style: TextStyle(color: Colors.grey, fontSize: 20.sp),
-                ),
+                    itemCount: 5,
+                    itemSize: 30,
+                    direction: Axis.horizontal,
+                  ),
+                )
               ],
             ),
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
+}
+
+
+class ContactedDoc extends StatelessWidget {
+  final double rate;
+  final String imgPath;
+  final String salary;
+  final String name;
+  final Function myFunction;
+  ContactedDoc({ required this.rate, required this.imgPath, required this.salary, required this.name,required this.myFunction});
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0).w,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20).w,
+        child: GestureDetector(
+          onTap: (){
+            myFunction();
+          },
+          child: Container(
+            color: Color(0xffeaeaea),
+            width: 170.w,
+            child: Padding(
+              padding: const EdgeInsets.all(10).w,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Icon(Icons.favorite_border, color: Colors.red),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.star,
+                            color: Colors.yellow,
+                          ),
+                          Text(rate.toString()),
+                        ],
+                      ),
+                    ],
+                  ),
+                  CircleAvatar(
+                    radius: 60.r,
+                    backgroundImage: NetworkImage(imgPath),
+                  ),
+                  Text(
+                    name,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
+                  ),
+                  Text(
+                    "\$ ${salary}/hours",
+                    style: TextStyle(color: Colors.grey, fontSize: 20.sp),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }

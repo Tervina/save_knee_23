@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="77df0e9c-7717-4a31-874b-1b6b68115ded" name="Changes" comment="ay 7aga">
+    <list default="true" id="77df0e9c-7717-4a31-874b-1b6b68115ded" name="Changes" comment="ay 7aga tani">
       <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/.filecache" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/.filecache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/app.dill" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/app.dill" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/debug_android_application.stamp" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/debug_android_application.stamp" afterDir="false" />
@@ -12,8 +12,10 @@
       <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/kernel_snapshot.d" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/kernel_snapshot.d" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/kernel_snapshot.stamp" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/d649933337940607305d95e6032fc22c/kernel_snapshot.stamp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/14_private_chat.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/14_private_chat.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/15_chat_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/15_chat_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/06_home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/06_home_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/07_home_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/07_home_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/11_xray_result.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/11_xray_result.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/13_emg_result.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/13_emg_result.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,18 +34,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Android/Projects/save_knee_23&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "io.flutter.reload.alreadyRun": "true",
+    "last_opened_file_path": "D:/Android/Projects/save_knee_23",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
@@ -66,7 +68,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684525661255</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="ay 7aga tani">
+      <created>1684584036811</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1684584036811</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -82,6 +91,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="ay 7aga" />
-    <option name="LAST_COMMIT_MESSAGE" value="ay 7aga" />
+    <MESSAGE value="ay 7aga tani" />
+    <option name="LAST_COMMIT_MESSAGE" value="ay 7aga tani" />
   </component>
 </project>
