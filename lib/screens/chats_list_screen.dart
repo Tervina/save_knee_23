@@ -4,10 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../constants.dart';
-import '/chat_model.dart';
 
-import '../chat_model.dart';
+import '/chat_model.dart';
+import '../constants.dart';
 import '../conversation_list.dart';
 
 class ChatPage extends StatefulWidget {
@@ -18,33 +17,45 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  List<Widget> chatBoxs=[];
-  bool isLoaded=false;
- void getdrList()async{
-    List doctorList=[];
+  List<Widget> chatBoxs = [];
+  bool isLoaded = false;
+  void getdrList() async {
+    List doctorList = [];
 
-    final _auth=FirebaseAuth.instance;
-    final user=_auth.currentUser;
-    final chat=FirebaseFirestore.instance;
-    final eachUser=await chat.collection('doctors').get();
-    for(var item in eachUser.docs){
-     // print(item['name']);
+    final _auth = FirebaseAuth.instance;
+    final user = _auth.currentUser;
+    final chat = FirebaseFirestore.instance;
+    final eachUser = await chat.collection('doctors').get();
+    for (var item in eachUser.docs) {
+      // print(item['name']);
       doctorList.add(item['name']);
-
     }
-    for(var doctor in doctorList){
-      final data =await chat.collection('chats').doc('Andrew Ashraf').collection(doctor).get();
-      if(data.docs.isNotEmpty){
-        final docChats=await chat.collection('chats').doc('Andrew Ashraf').collection(doctor).get();
-        final text =docChats.docs.last;
-        final ConversationList box=ConversationList(name: doctor, messageText:text['text'] , imageUrl: 'assets/images/doctor2.png', isMessageRead: true);
+    for (var doctor in doctorList) {
+      final data = await chat
+          .collection('chats')
+          .doc('Andrew Ashraf')
+          .collection(doctor)
+          .get();
+      if (data.docs.isNotEmpty) {
+        final docChats = await chat
+            .collection('chats')
+            .doc('Andrew Ashraf')
+            .collection(doctor)
+            .get();
+        final text = docChats.docs.last;
+        final ConversationList box = ConversationList(
+            name: doctor,
+            messageText: text['text'],
+            imageUrl: 'assets/images/doctor2.png',
+            isMessageRead: true);
         chatBoxs.add(box);
       }
-    }setState(() {
-      isLoaded=true;
+    }
+    setState(() {
+      isLoaded = true;
     });
-
   }
+
   List<ChatModel> chatModel = [
     ChatModel(
         name: "Dr/Mona Mady",
@@ -60,26 +71,30 @@ class _ChatPageState extends State<ChatPage> {
         imageURL: "images/doctor4.png"),
   ];
 
- @override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getdrList();
   }
+
   @override
   Widget build(BuildContext context) {
-    List<Doctor> result=[];
-    SearchDoc(String value){
+    List<Doctor> result = [];
+    SearchDoc(String value) {
       result.clear();
-      for(Doctor doctor in drList){
-        if(doctor.name.contains(value)){
+      for (Doctor doctor in drList) {
+        if (doctor.name.contains(value)) {
           result.add(doctor);
         }
       }
     }
-    final screenHeight= MediaQuery.of(context).size.height;
-    final screenWidth= MediaQuery.of(context).size.width;
-    final bodyHeight=screenHeight-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom;
+
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final bodyHeight = screenHeight -
+        MediaQuery.of(context).padding.top -
+        MediaQuery.of(context).padding.bottom;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -105,7 +120,7 @@ class _ChatPageState extends State<ChatPage> {
                       onPressed: () => Navigator.of(context).pop(),
                     ),
                   ),
-                   Center(
+                  Center(
                     child: Text(
                       "Messages",
                       style: TextStyle(
@@ -114,31 +129,32 @@ class _ChatPageState extends State<ChatPage> {
                       ),
                     ),
                   ),
-                   IconButton(
-                     icon: Icon(
-                       Icons.logout_outlined,
-                       color: Color(0xff0D235C),
-                       size: 50,
-                     ),
-                     onPressed: (){
-                       getdrList();
-                     },
-                   ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.logout_outlined,
+                      color: Color(0xff0D235C),
+                      size: 50,
+                    ),
+                    onPressed: () {
+                      getdrList();
+                    },
+                  ),
                 ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
               child: TextField(
-                onChanged: (value){
+                onChanged: (value) {
                   SearchDoc(value);
                 },
                 decoration: InputDecoration(
                   hintText: "Search...",
                   hintStyle: TextStyle(color: Colors.grey.shade600),
                   prefixIcon: InkWell(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatPage(result)));
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => ChatPage()));
                     },
                     child: Icon(
                       Icons.search,
@@ -161,7 +177,7 @@ class _ChatPageState extends State<ChatPage> {
                 child: ListView(
                   padding: const EdgeInsets.only(top: 16).r,
                   physics: const NeverScrollableScrollPhysics(),
-                   children: chatBoxs,
+                  children: chatBoxs,
                 ),
                 replacement: CircularProgressIndicator(),
                 visible: isLoaded,
