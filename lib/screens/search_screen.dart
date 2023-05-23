@@ -1,11 +1,13 @@
-import 'package:save_knee_23/constants.dart';
-import 'package:save_knee_23/screens/08_time_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:save_knee_23/models/constants.dart';
+import 'package:save_knee_23/screens/booking_screen.dart';
 
-class HomePage extends StatelessWidget {
-  final List<Doctor> result;
-  HomePage(this.result);
+class SearchScreen extends StatelessWidget {
+  final List<OldDoctorClass> result;
+
+  SearchScreen(this.result);
+
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -53,18 +55,16 @@ class HomePage extends StatelessWidget {
                   IconButton(
                     icon: Icon(
                       Icons.logout_outlined,
-                      color: Color(0xff0D235C),
+                      color: kHomeScreenColor,
                       size: 50,
                     ),
-                    onPressed: (){
-
-                    },
+                    onPressed: () {},
                   ),
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only( left: 16, right: 16),
+              padding: const EdgeInsets.only(left: 16, right: 16),
               child: TextField(
                 decoration: InputDecoration(
                   hintText: "Search...",
@@ -86,15 +86,13 @@ class HomePage extends StatelessWidget {
             SizedBox(
               height: 500.h,
               child: ListView.builder(
-                itemCount: result.length,
-                itemBuilder: (context, index) {
-                  return  DoctorContainer(result[index]);
-                }),
+                  itemCount: result.length,
+                  itemBuilder: (context, index) {
+                    return DoctorContainer(result[index]);
+                  }),
             ),
           ],
         ),
-
-
       ),
     );
   }
@@ -103,12 +101,11 @@ class HomePage extends StatelessWidget {
 class MyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Container(
         height: 200.h,
-        width:  350.w,
+        width: 350.w,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15.r),
@@ -206,7 +203,7 @@ class MyWidget extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return TimeTable();
+                          return BookingScreen();
                         }));
                       },
                       child: Text(
@@ -227,20 +224,21 @@ class MyWidget extends StatelessWidget {
     );
   }
 }
+
 class DoctorContainer extends StatelessWidget {
-final Doctor doctor;
-DoctorContainer(this.doctor);
+  final OldDoctorClass doctor;
+
+  DoctorContainer(this.doctor);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Container(
-        height:  150.h,
-        width:  350.w,
+        height: 150.h,
+        width: 350.w,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-         color: Colors.white
-        ),
+            borderRadius: BorderRadius.circular(20), color: Colors.white),
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Row(
@@ -248,21 +246,26 @@ DoctorContainer(this.doctor);
               Column(
                 children: [
                   SizedBox(
-                    height: 100.h,
+                      height: 100.h,
                       width: 100.w,
-                      child: Image.network(doctor.imgPath,fit: BoxFit.fill
-                        ,)),
-                  Text("Next Avalability",style: TextStyle(
-                    color: Colors.blue.shade900,
-                    fontSize: 15.sp
-                  ),),
-                  Text("10 AM tomorrow",style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 10.sp
-                  ),)
+                      child: Image.network(
+                        doctor.imgPath,
+                        fit: BoxFit.fill,
+                      )),
+                  Text(
+                    "Next Avalability",
+                    style:
+                        TextStyle(color: Colors.blue.shade900, fontSize: 15.sp),
+                  ),
+                  Text(
+                    "10 AM tomorrow",
+                    style: TextStyle(color: Colors.grey, fontSize: 10.sp),
+                  )
                 ],
               ),
-              SizedBox(width: 10.w,),
+              SizedBox(
+                width: 10.w,
+              ),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -272,29 +275,35 @@ DoctorContainer(this.doctor);
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(doctor.name,style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.bold,
-                        ),),
-                        Icon(doctor.isFav?Icons.favorite:Icons.favorite_border,color: Colors.red,),
+                        Text(
+                          doctor.name,
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Icon(
+                          doctor.isFav ? Icons.favorite : Icons.favorite_border,
+                          color: Colors.red,
+                        ),
                       ],
-
                     ),
-                    Text(doctor.department,style: TextStyle(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.bold,
-                    ),),
+                    Text(
+                      doctor.department,
+                      style: TextStyle(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         ElevatedButton(
-                            onPressed: (){},
+                            onPressed: () {},
                             child: Text(
                               "Book Now",
-
-                            )
-                        ),
+                            )),
                       ],
                     )
                   ],

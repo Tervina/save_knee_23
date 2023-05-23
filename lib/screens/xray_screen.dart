@@ -3,81 +3,42 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tflite/tflite.dart';
 
-import '/screens/11_xray_result.dart';
+import '../models/constants.dart';
+import '../services/xray_classifier.dart';
+import 'xray_result_screen.dart';
 
-class xray extends StatefulWidget {
+class XRayScreen extends StatefulWidget {
   @override
-  State<xray> createState() => _xrayState();
+  State<XRayScreen> createState() => _XRayScreenState();
 }
 
-class _xrayState extends State<xray> {
+class _XRayScreenState extends State<XRayScreen> {
   File? _image;
-  late Future<File> imageFile;
-  String result = '';
   late ImagePicker imagePicker;
-
-  loadModelFiles() async {
-    String? res = await Tflite.loadModel(
-        model: "assets/model/model_unquant.tflite",
-        labels: "assets/model/labels.txt",
-        numThreads: 1, // defaults to 1
-        isAsset:
-            true, // defaults to true, set to false to load resources outside assets
-        useGpuDelegate:
-            false // defaults to false, set to true to use GPU delegate
-        );
-    print(res);
-  }
-
-  doImageClassification() async {
-    var recognitions = await Tflite.runModelOnImage(
-        path: _image!.path, // required
-        imageMean: 0.0, // defaults to 117.0
-        imageStd: 255.0, // defaults to 1.0
-        numResults: 2, // defaults to 5
-        threshold: 0.1, // defaults to 0.1
-        asynch: true // defaults to true
-        );
-    print(recognitions!.length.toString());
-    setState(() {
-      result = "";
-    });
-    recognitions.forEach((re) {
-      setState(() {
-        print(re.toString());
-        result += re["label"] +
-            "Grade " +
-            (re["confidence"] as double).toStringAsFixed(2) +
-            "\n";
-      });
-    });
-  }
+  late String result;
 
   _imgFromCamera() async {
-    PickedFile? pickedFile =
-        await imagePicker.getImage(source: ImageSource.camera);
+    XFile? pickedFile = await imagePicker.pickImage(source: ImageSource.camera);
     _image = File(pickedFile!.path);
+    result = await doImageClassification(_image);
     setState(() {
       _image;
-      doImageClassification();
     });
   }
 
   _imgFromGallery() async {
-    PickedFile? pickedFile =
-        await imagePicker.getImage(source: ImageSource.gallery);
+    XFile? pickedFile =
+        await imagePicker.pickImage(source: ImageSource.gallery);
     _image = File(pickedFile!.path);
+    result = await doImageClassification(_image);
     setState(() {
       _image;
-      doImageClassification();
     });
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     imagePicker = ImagePicker();
     loadModelFiles();
@@ -105,7 +66,7 @@ class _xrayState extends State<xray> {
                   height: 200.h,
                   width: 200.w,
                   decoration: ShapeDecoration(
-                      shape: CircleBorder(), color: Color(0xff0D235C)),
+                      shape: CircleBorder(), color: kHomeScreenColor),
                   child: IconButton(
                     onPressed: () {},
                     icon: Icon(Icons.arrow_back_outlined,
@@ -120,7 +81,7 @@ class _xrayState extends State<xray> {
               child: Center(
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Color(0xff0D235C),
+                      color: kHomeScreenColor,
                       borderRadius: BorderRadius.circular(35).w),
                   height: .055 * bodyHeight,
                   child: Row(
@@ -145,7 +106,7 @@ class _xrayState extends State<xray> {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/images/pexels-joão-jesus-925743.jpg'),
+                image: AssetImage('assets/images/test_bg.jpg'),
                 fit: BoxFit.cover),
           ),
           child: Column(
@@ -164,7 +125,7 @@ class _xrayState extends State<xray> {
                         children: [
                           CircleAvatar(
                             radius: 100.r,
-                            backgroundColor: Color(0xff0D235C),
+                            backgroundColor: kHomeScreenColor,
                             child: CircleAvatar(
                               radius: 95.r,
                               backgroundImage:
@@ -201,13 +162,13 @@ class _xrayState extends State<xray> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(25.0).w,
                                   gradient: LinearGradient(colors: [
-                                    Color(0xff0D235C),
+                                    kHomeScreenColor,
                                     Colors.black
                                   ])),
                               clipBehavior: Clip.antiAliasWithSaveLayer,
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: Color(0xff0D235C),
+                                    backgroundColor: kHomeScreenColor,
                                     fixedSize: Size(
                                         .5 * screenWidth, .05 * bodyHeight),
                                   ),
@@ -221,7 +182,7 @@ class _xrayState extends State<xray> {
                                                   gradient: LinearGradient(
                                                       colors: [
                                                     Color(0xff101010),
-                                                    Color(0xff0D235C),
+                                                    kHomeScreenColor,
                                                     Colors.black
                                                   ])),
                                               child: Column(
@@ -370,33 +331,24 @@ class _xrayState extends State<xray> {
                                   )),
                             ),
                           ),
-                          Container(
-                            margin: EdgeInsets.only(top: 20),
-                            child: Text(
-                              '$result',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontFamily: 'finger_paint', fontSize: 26),
-                            ),
-                          ),
                           Padding(
                             padding: EdgeInsets.only(top: .03 * bodyHeight),
                             child: Container(
                               decoration: BoxDecoration(
-                                color: Color(0xff0D235C),
+                                color: kHomeScreenColor,
                                 borderRadius: BorderRadius.circular(25.0).w,
                               ),
                               clipBehavior: Clip.antiAliasWithSaveLayer,
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: Color(0xff0D235C),
+                                    backgroundColor: kHomeScreenColor,
                                     fixedSize: Size(
                                         .3 * screenWidth, .02 * bodyHeight),
                                   ),
                                   onPressed: () {
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context) {
-                                      return xray_result(_image, result);
+                                      return XRayResultScreen(_image, result);
                                     }));
                                   },
                                   child: Text(

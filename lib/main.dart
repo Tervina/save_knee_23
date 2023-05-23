@@ -1,20 +1,21 @@
-
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+
+import '/models/doctor_list_provider.dart';
 import 'firebase_options.dart';
+import 'screens/splash_screen.dart';
 
-import 'screens/03_screen_one.dart';
-
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  runApp(MyApp());
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -25,9 +26,12 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (BuildContext context, child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: K_ost(),
+        return ChangeNotifierProvider(
+          create: (BuildContext context) => DrListProvider(),
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: SplashScreen(),
+          ),
         );
       },
     );

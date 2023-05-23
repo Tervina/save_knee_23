@@ -1,40 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Color kpDrk = const Color(0xFF222641);
-Color kpLit = const Color(0xFF4942ce);
+Color kLogoDrk = const Color(0xFF222641);
+Color kLogoLit = const Color(0xFF4942ce);
+Color kPrimaryColor = const Color(0xFF00174d);
+Color kHomeScreenColor = const Color(0xff0D235C);
+Color kButtonColor = const Color(0xff3E1E82);
 
-class MyTextField extends StatelessWidget {
-  final String title;
+TextStyle kButtonTextStyle = TextStyle(fontSize: 18.sp, color: Colors.white);
 
-  MyTextField({required this.title});
+BoxDecoration kGradientDecoration = const BoxDecoration(
+  gradient: LinearGradient(
+    begin: Alignment.topRight,
+    end: Alignment(0, 0),
+    colors: [
+      Color(0xFFfba867),
+      //Color(0xFFff8a65),
+      Color(0xFFc5cae9),
+      // Color(0xFFfba867),
+      Color(0xFF7986cb),
+      Color(0xFFc5cae9),
+    ],
+  ),
+);
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title),
-          SizedBox(height: 10),
-          SizedBox(
-            height: 40,
-            width: 250,
-            child: TextFormField(
-              decoration: InputDecoration(
-                fillColor: Colors.black12,
-                filled: true,
-                enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(25)),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+BoxDecoration kGradientDecoration2 = const BoxDecoration(
+    gradient: LinearGradient(
+        begin: Alignment.bottomRight,
+        end: Alignment.topLeft,
+        colors: [
+      Color(0xFFc5cae9),
+      Color(0xffD4CFC8),
+      // Color(0xFF7986cb),
+      Color(0xFFdcf4ff),
+      Color(0xffced5e8),
+      Color(0xFFc5cae9),
+      Color(0xFFc5cae9),
+    ]));
 
 class RPSCustomPainter extends CustomPainter {
   @override
@@ -64,7 +66,7 @@ class RPSCustomPainter extends CustomPainter {
 }
 
 //SCRATCH DATA
-class Doctor {
+class OldDoctorClass {
   final String name;
   final String department;
   final double rate;
@@ -72,18 +74,13 @@ class Doctor {
   final bool isFav;
   final int salary;
 
-  Doctor(
+  OldDoctorClass(
       {required this.name,
       required this.department,
       required this.rate,
       required this.imgPath,
       required this.isFav,
       required this.salary});
-}
-
-String getYoutubeThumbnail(String videoUrl) {
-  String id = videoUrl.substring(videoUrl.length - 11);
-  return 'https://img.youtube.com/vi/${id}/0.jpg';
 }
 
 List<String> urlList = [
@@ -101,8 +98,8 @@ List<String> urlList = [
   'https://youtu.be/CCwMevUe7lc',
 ];
 
-List<Doctor> drList = [
-  Doctor(
+List<OldDoctorClass> drList = [
+  OldDoctorClass(
       name: 'Dr. Fillerup Garb',
       department: 'Medicine Specialist',
       rate: 3.7,
@@ -110,7 +107,7 @@ List<Doctor> drList = [
           'https://as2.ftcdn.net/v2/jpg/02/82/72/13/1000_F_282721302_ASa8MKXhTukl1TnIxGl56eiOQkrvK5zL.jpg',
       isFav: false,
       salary: 25),
-  Doctor(
+  OldDoctorClass(
       name: 'Dr. Blessing Ross',
       department: 'Dentist',
       rate: 4,
@@ -118,7 +115,7 @@ List<Doctor> drList = [
           'https://as2.ftcdn.net/v2/jpg/02/69/98/91/1000_F_269989145_sP2OHMejODs0zrlkLWpB2zADAmTwljkT.jpg',
       isFav: true,
       salary: 18),
-  Doctor(
+  OldDoctorClass(
       name: 'Dr. Crick Bong',
       department: 'Oncologist',
       rate: 3.5,
@@ -126,7 +123,7 @@ List<Doctor> drList = [
           'https://as2.ftcdn.net/v2/jpg/01/70/97/49/1000_F_170974984_vTtMiYxyEyKgshyQqcdFLjQ0WkQFULEG.jpg',
       isFav: false,
       salary: 30),
-  Doctor(
+  OldDoctorClass(
       name: 'Dr. Strain Oliver',
       department: 'Oncologist',
       rate: 4.8,
@@ -134,7 +131,7 @@ List<Doctor> drList = [
           'https://as1.ftcdn.net/v2/jpg/01/32/94/46/1000_F_132944601_TzKWWNgwnBBsShz9UwWiUjTpoydpB5cV.jpg',
       isFav: true,
       salary: 35),
-  Doctor(
+  OldDoctorClass(
       name: 'Dr. Lachinet Hades',
       department: 'Medicine Specialist',
       rate: 2.9,

@@ -1,7 +1,8 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
-import '/constants.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+
+import '../models/constants.dart';
 
 int timeCounter = 1;
 int rmndCounter = 1;
@@ -16,7 +17,6 @@ class AppointmentScreen extends StatefulWidget {
 class _AppointmentScreenState extends State<AppointmentScreen> {
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: Scaffold(
         body: Stack(
@@ -29,14 +29,14 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        Color(0xFFc5cae9),
-                        Color(0xffD4CFC8),
-                        // Color(0xFF7986cb),
-                        Color(0xFFdcf4ff),
-                        Color(0xffced5e8),
-                        Color(0xFFc5cae9),
-                        Color(0xFFc5cae9),
-                      ])),
+                    Color(0xFFc5cae9),
+                    Color(0xffD4CFC8),
+                    // Color(0xFF7986cb),
+                    Color(0xFFdcf4ff),
+                    Color(0xffced5e8),
+                    Color(0xFFc5cae9),
+                    Color(0xFFc5cae9),
+                  ])),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
@@ -201,7 +201,7 @@ void _onAlertWithCustomImagePressed(context) {
     context: context,
     title: "Thank You!",
     desc:
-    "You booked and appointment with Dr Ali, medical, on DATE at ${availableTimes}\n You will be reminded",
+        "You booked and appointment with Dr Ali, medical, on DATE at ${availableTimes}\n You will be reminded",
     image: Image.asset("assets/images/like.png"),
   ).show();
 }

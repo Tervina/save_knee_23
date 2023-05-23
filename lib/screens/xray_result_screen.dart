@@ -2,15 +2,17 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:save_knee_23/screens/chats_list_screen.dart';
 
-import '06_home_screen.dart';
-import '07_home_page.dart';
-import '14_private_chat.dart';
+import '../models/constants.dart';
+import 'chat_screen.dart';
+import 'home_screen.dart';
 
-class xray_result extends StatelessWidget {
+class XRayResultScreen extends StatelessWidget {
   final File? _image;
   final String result;
-  xray_result(this._image, this.result);
+
+  XRayResultScreen(this._image, this.result);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class xray_result extends StatelessWidget {
                   height: 200.h,
                   width: 200.w,
                   decoration: ShapeDecoration(
-                      shape: CircleBorder(), color: Color(0xff0D235C)),
+                      shape: CircleBorder(), color: kHomeScreenColor),
                   child: IconButton(
                     onPressed: () {},
                     icon: Icon(Icons.arrow_back_outlined,
@@ -50,7 +52,7 @@ class xray_result extends StatelessWidget {
               child: Center(
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Color(0xff0D235C),
+                      color: kHomeScreenColor,
                       borderRadius: BorderRadius.circular(35.r)),
                   height: 0.058 * bodyHeight,
                   child: Row(
@@ -75,7 +77,7 @@ class xray_result extends StatelessWidget {
           padding: EdgeInsets.only(top: 20.r),
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/images/pexels-joão-jesus-925743.jpg'),
+                image: AssetImage('assets/images/test_bg.jpg'),
                 fit: BoxFit.cover),
           ),
           child: Column(
@@ -94,7 +96,7 @@ class xray_result extends StatelessWidget {
                         children: [
                           CircleAvatar(
                               radius: 100.r,
-                              backgroundColor: Color(0xff0D235C),
+                              backgroundColor: kHomeScreenColor,
                               child: CircleAvatar(
                                 radius: 95.r,
                                 backgroundImage:
@@ -141,7 +143,7 @@ class xray_result extends StatelessWidget {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.0.r),
                                   gradient: LinearGradient(colors: [
-                                    Color(0xff0D235C),
+                                    kHomeScreenColor,
                                     Colors.black
                                   ])),
                               clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -217,7 +219,7 @@ class xray_result extends StatelessWidget {
                           onPressed: () {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                              return Chat();
+                              return ChatsListScreen();
                             }));
                           },
                           icon: Icon(Icons.chat_bubble_outline,

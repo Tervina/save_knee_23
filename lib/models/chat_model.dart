@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class ChatModel {
   late String name;
   late String messageText;

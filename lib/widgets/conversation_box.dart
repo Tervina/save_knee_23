@@ -4,9 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../screens/chat_screen.dart';
 
 class ConversationBox extends StatelessWidget {
-  String name;
-  String text;
-  String imgPath;
+  final String name;
+  final String text;
+  final String imgPath;
 
   ConversationBox({
     required this.name,
@@ -18,11 +18,12 @@ class ConversationBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return ChatScreen();
-        }));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ChatScreen(otherUserName: name)));
       },
-      child: Container(
+      child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
         child: Row(
           children: <Widget>[

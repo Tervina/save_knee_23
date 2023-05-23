@@ -1,15 +1,19 @@
-
-import 'package:save_knee_23/screens/02_signUp.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../constants.dart';
-import '01_loginScreen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:save_knee_23/screens/signup_screen.dart';
+
+import '../models/constants.dart';
+import 'login_Screen.dart';
 
 class LogoScreen extends StatelessWidget {
-  const LogoScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    try {
+      FirebaseAuth.instance.signOut();
+    } catch (e) {
+      print(e);
+    }
     return Scaffold(
       body: Column(
         children: [
@@ -20,11 +24,11 @@ class LogoScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset('assets/images/logo.png', scale: 0.85),
-                const SizedBox(height: 15),
+                SizedBox(height: 15.h),
                 Text(
                   'SAVE\nKnee',
                   style: TextStyle(
-                    color: kpLit,
+                    color: kLogoLit,
                     fontFamily: 'Benson',
                     fontSize: 40.sp,
                     fontWeight: FontWeight.w900,
@@ -32,7 +36,7 @@ class LogoScreen extends StatelessWidget {
                 ),
                 Text(
                   'get better yourself',
-                  style: TextStyle(color: kpLit),
+                  style: TextStyle(color: kLogoLit, fontSize: 15.sp),
                 ),
               ],
             ),
@@ -42,10 +46,10 @@ class LogoScreen extends StatelessWidget {
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                  color: kpDrk,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
+                  color: kLogoDrk,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20.r),
+                    topRight: Radius.circular(20.r),
                   )),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -53,32 +57,37 @@ class LogoScreen extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(kpLit),
+                        backgroundColor: MaterialStateProperty.all(kLogoLit),
                         minimumSize:
-                        MaterialStateProperty.all(const Size(220, 50)),
+                            MaterialStateProperty.all(Size(220.w, 50.h)),
                         shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                            side: BorderSide(color: kpLit)))),
+                            borderRadius: BorderRadius.circular(20.0.r),
+                            side: BorderSide(color: kLogoLit)))),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()));
                     },
-
-                    child: const Text('Login'),
+                    child: Text('Login', style: kButtonTextStyle),
                   ),
-                  SizedBox(height: 15.h,),
+                  SizedBox(height: 15.h),
                   ElevatedButton(
                     style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(kpDrk),
+                        backgroundColor: MaterialStateProperty.all(kLogoDrk),
                         minimumSize:
-                        MaterialStateProperty.all(const Size(220, 50)),
+                            MaterialStateProperty.all(Size(220.w, 50.h)),
                         shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          side: BorderSide(color: kpLit, width: 3.w),
+                          borderRadius: BorderRadius.circular(20.0.r),
+                          side: BorderSide(color: kLogoLit, width: 3.w),
                         ))),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUp()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SignUpScreen()));
                     },
-                    child: const Text('Sign Up'),
+                    child: Text('Sign Up', style: kButtonTextStyle),
                   ),
                 ],
               ),

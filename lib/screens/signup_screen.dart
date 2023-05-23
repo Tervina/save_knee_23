@@ -1,81 +1,79 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:save_knee_23/log_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-bool checkBoxValue=false;
-class SignUp extends StatefulWidget {
-  const SignUp({Key? key}) : super(key: key);
+import 'package:image_picker/image_picker.dart';
+import 'package:save_knee_23/screens/home_screen.dart';
+
+import '../models/constants.dart';
+import '../services/user_auth.dart';
+import '../widgets/text_field.dart';
+import 'login_Screen.dart';
+
+class SignUpScreen extends StatefulWidget {
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  final TextEditingController nameCtrl = TextEditingController();
+  final TextEditingController emailCtrl = TextEditingController();
+  final TextEditingController passCtrl = TextEditingController();
+  final String profilePicCtrl = 'assets/images/user_profile_pic.jpg';
+  final TextEditingController cityCtrl = TextEditingController();
+  final TextEditingController phoneCtrl = TextEditingController();
+  final TextEditingController ageCtrl = TextEditingController();
+  ImagePicker imagePicker = ImagePicker();
+  File? _image;
+
+  _imgFromCamera() async {
+    XFile? pickedFile = await imagePicker.pickImage(source: ImageSource.camera);
+    _image = File(pickedFile!.path);
+    setState(() {
+      _image;
+    });
+  }
+
+  _imgFromGallery() async {
+    XFile? pickedFile =
+        await imagePicker.pickImage(source: ImageSource.gallery);
+    _image = File(pickedFile!.path);
+    setState(() {
+      _image;
+    });
+  }
 
   @override
-
-  State<SignUp> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<SignUp> {
-  final controller=TextEditingController();
-  final controller1=TextEditingController();
-  final controller2=TextEditingController();
-  final controller3=TextEditingController();
-  final controller4=TextEditingController();
-  final controller5=TextEditingController();
-  bool isDoc=true;
-
-void Sign_up(){
-  final _auth=FirebaseAuth.instance;
-  final newUser=_auth.createUserWithEmailAndPassword(
-      email: controller1.text,
-      password: controller2.text
-  );
-  Add_user(controller.text, controller1.text, controller2.text, controller3.text,controller4.text,controller5.text);
-
-}
-void Add_user(String name,String email,String pass,String address,String phone,String age){
-final _auth=FirebaseFirestore.instance;
- final user=_auth.collection('patients').add({
-   'name':name,
-   'email':email,
-   'pass':pass,
-   'address':address,
-   'phone':phone,
-   'age':age,
- });
-}
-  @override
-
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Stack(children: [
-          Positioned(
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.4,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.fitHeight,
-                      image: AssetImage('assets/images/knee_bg_wide.jpg'))),
-            ),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.4,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    fit: BoxFit.fitHeight,
+                    image: AssetImage('assets/images/knee_bg_wide.jpg'))),
           ),
           Container(
-            height: 180.h,
-            width: 200.w,
+            height: 160.h,
+            width: 180.w,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(70),
-                    bottomRight: Radius.circular(70),
-                    bottomLeft: Radius.circular(70)),
+                    topRight: Radius.circular(70.r),
+                    bottomRight: Radius.circular(70.r),
+                    bottomLeft: Radius.circular(70.r)),
                 color: Colors.white),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                //SizedBox(height: 20,),
                 Row(
                   children: [
-                    IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
+                    IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: Icon(Icons.arrow_back)),
                     Text(
                       "Back",
                       style: TextStyle(color: Colors.black, fontSize: 20.sp),
@@ -84,7 +82,10 @@ final _auth=FirebaseFirestore.instance;
                 ),
                 Text(
                   "Sign Up",
-                  style: TextStyle(color: Colors.black, fontSize: 30.sp),
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 30.sp,
+                      fontWeight: FontWeight.w400),
                 )
               ],
             ),
@@ -92,174 +93,81 @@ final _auth=FirebaseFirestore.instance;
           Positioned(
             //top: 350,
             bottom: 0,
-            height: MediaQuery.of(context).size.height * 0.7,
+            height: MediaQuery.of(context).size.height * 0.69,
             width: MediaQuery.of(context).size.width,
             child: Container(
-              // height: MediaQuery.of(context).size.height*0.6,
-
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(40),
-                      topLeft: Radius.circular(40))),
+                      topRight: Radius.circular(40.r),
+                      topLeft: Radius.circular(40.r))),
               child: Padding(
-                padding: const EdgeInsets.all(50),
+                padding: EdgeInsets.all(40.h),
                 child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         "Create new Account",
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 40.sp,
+                          fontSize: 48.sp,
                           color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-
-                      ),
-                      TextButton(onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
-                      },
-                          child: Text("Already Registered? Login here")
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "NAME",
-                          style: TextStyle(fontSize: 10.sp,),
-                          //textAlign: TextAlign.left,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                      CustomField(controller),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "EMAIL",
-                          style: TextStyle(fontSize: 10.sp,),
-                          //textAlign: TextAlign.left,
-                        ),
-                      ),
-                      CustomField(controller1),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "PASSWORD",
-                          style: TextStyle(fontSize: 10.sp),
-                        ),
-
-                      ),
-                      TextField(
-                          controller: controller2,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Color(0xffD9D8D8),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide.none))),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "YOUR COUNTRY",
-                          style: TextStyle(fontSize: 10.sp,),
-                          //textAlign: TextAlign.left,
-                        ),
-                      ),
-                      CustomField(controller3),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "YOUR AGE",
-                          style: TextStyle(fontSize: 10.sp,),
-                          //textAlign: TextAlign.left,
-                        ),
-                      ),
-                      CustomField(controller4),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()));
+                          },
+                          child: Text("Already Registered? Login here")),
+                      MyTextField(title: 'FULL NAME', controller: nameCtrl),
+                      MyTextField(title: 'EMAIL', controller: emailCtrl),
+                      MyTextField(title: 'PASSWORD', controller: passCtrl),
+                      MyTextField(title: 'PHONE', controller: phoneCtrl),
+                      MyTextField(title: 'AGE', controller: ageCtrl),
+                      MyTextField(title: 'CITY', controller: cityCtrl),
+                      SizedBox(height: 10.h),
                       Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SizedBox(
-                            height: 20.h,
-                            width:MediaQuery.of(context).size.width*0.35,
-                            child: CheckboxListTile(
-
-                                value: isDoc,
-                                title: Text("DOCTOR",style: TextStyle(fontSize: 8.sp),),
-                                controlAffinity: ListTileControlAffinity.leading,
-
-
-                                // activeColor: Colors.green,
-                                checkColor: Colors.blue.shade900,
-                                onChanged: (bool? value){
-                                  if(value==true){
-
-                                    setState(() {
-                                      isDoc=true;
-                                    });
-                                  }else{
-                                    setState(() {
-                                      isDoc=false;
-                                    });
-                                  }
-
-                                }),
-                          ),
-                          SizedBox(
-                            height: 20.h,
-                            width: MediaQuery.of(context).size.width*0.35,
-
-                            child: CheckboxListTile(
-                                value: !isDoc,
-                                controlAffinity: ListTileControlAffinity.leading,
-
-                                title: Text("PATIENT",style: TextStyle(fontSize: 8.sp),),
-
-                                // activeColor: Colors.green,
-                                checkColor: Colors.blue.shade900,
-                                onChanged: (bool? value){
-                                  setState(() {
-                                    if(value == true){
-                                      isDoc=false;
-                                    }else{
-
-                                      setState(() {
-                                        isDoc=true;
-                                      });
-                                    }
-
-                                  });
-                                }),
-                          )
+                          Text('Add Profile Picture: '),
+                          IconButton(
+                              onPressed: () => _imgFromCamera(),
+                              icon: Icon(Icons.camera_alt)),
+                          IconButton(
+                              onPressed: () => _imgFromGallery(),
+                              icon: Icon(Icons.image)),
                         ],
                       ),
-                      SizedBox(height: 30.h,),
-                      ElevatedButton(onPressed: (){
-                        Sign_up();
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
-                      },
-
+                      ElevatedButton(
+                          onPressed: () {
+                            //create new user
+                            userCreate(
+                              nameCtrl: nameCtrl,
+                              emailCtrl: emailCtrl,
+                              passCtrl: passCtrl,
+                              phoneCtrl: phoneCtrl,
+                              profilePicFile: _image,
+                              ageCtrl: ageCtrl,
+                              cityCtrl: cityCtrl,
+                            );
+                            //navigate to home screen
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomeScreen()));
+                          },
                           style: ElevatedButton.styleFrom(
-                              primary: Color(0xff3E1E82),
+                              backgroundColor: kButtonColor,
                               textStyle: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20.sp
-                              ),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                              minimumSize: Size(350, 60)
-                          ),
-                          child: Text("Sign Up")
-                      ),
-                      TextButton(onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
-                      },
-                          child: Text("Already Have Account?",style: TextStyle(color: Colors.black),)
-                      ),
-                      TextButton(onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUp()));
-                      },
-                          child: Text("Sign Up !",style: TextStyle(color: Color(0xff3E1E82)),))
+                                  color: Colors.white, fontSize: 20.sp),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.r)),
+                              minimumSize: Size(250.w, 50.h)),
+                          child: Text("Sign Up")),
                     ],
                   ),
                 ),
@@ -269,22 +177,5 @@ final _auth=FirebaseFirestore.instance;
         ]),
       ),
     );
-  }
-}
-
-
-class CustomField extends StatelessWidget {
-  TextEditingController controller;
-  CustomField(this.controller);
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-        controller: controller,
-        decoration: InputDecoration(
-            filled: true,
-            fillColor: Color(0xffD9D8D8),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide: BorderSide.none)));
   }
 }
