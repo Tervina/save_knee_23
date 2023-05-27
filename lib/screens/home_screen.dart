@@ -1,4 +1,4 @@
-ase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   //new dr list
 
-
   SearchDoc(String value) {
     result.clear();
     for (OldDoctorClass doctor in drList) {
@@ -61,40 +60,40 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             BottomNavigationBarItem(
               icon:
-              Icon(FontAwesomeIcons.fileWaveform, color: kHomeScreenColor),
+                  Icon(FontAwesomeIcons.fileWaveform, color: kHomeScreenColor),
               label: "EMG",
             )
           ],
           onTap: (int index) {
             switch (index) {
               case 0:
-              // only scroll to top when current index is selected.
+                // only scroll to top when current index is selected.
                 if (_selectedIndex == index) {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context) {
-                        return ChatsListScreen();
-                      }));
+                    return ChatsListScreen();
+                  }));
                 }
                 break;
               case 1:
                 if (_selectedIndex == index) {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context) {
-                        return XRayScreen();
-                      }));
+                    return XRayScreen();
+                  }));
                 }
                 break;
               case 2:
                 if (_selectedIndex == index) {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context) {
-                        return EMGScreen();
-                      }));
+                    return EMGScreen();
+                  }));
                 }
                 break;
             }
             setState(
-                  () => _selectedIndex = index,
+              () => _selectedIndex = index,
             );
           },
         ),
@@ -102,26 +101,14 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             //Background
             Container(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width,
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
               decoration: kGradientDecoration2,
             ),
             //Top Background Bar
             Container(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * .21,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width,
+              height: MediaQuery.of(context).size.height * .21,
+              width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 color: kHomeScreenColor,
                 borderRadius: BorderRadius.only(
@@ -185,11 +172,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             filled: true,
                             fillColor: Colors.white,
                             prefixIcon: IconButton(
-                              onPressed: () =>
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                        return SearchScreen(result);
-                                      })),
+                              onPressed: () => Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return SearchScreen(result);
+                              })),
                               icon: Icon(Icons.search),
                               color: Colors.blue.shade900,
                             ),
@@ -204,10 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     // Scroll View
                     SizedBox(
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.669,
+                      height: MediaQuery.of(context).size.height * 0.669,
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
@@ -247,10 +230,11 @@ class RollList extends StatelessWidget {
   final bool hasSeeAllButton;
   final Widget tile;
 
-  RollList({required this.height,
-    required this.label,
-    required this.hasSeeAllButton,
-    required this.tile});
+  RollList(
+      {required this.height,
+      required this.label,
+      required this.hasSeeAllButton,
+      required this.tile});
 
   @override
   Widget build(BuildContext context) {
@@ -283,9 +267,6 @@ class RollList extends StatelessWidget {
 class ExcVidList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<Doctor> newDrList = Provider
-        .of<DrListProvider>(context, listen: false)
-        .doctorList;
     return ListView.builder(
       scrollDirection: Axis.horizontal,
       itemCount: urlList.length,
@@ -300,7 +281,7 @@ class ExcVidList extends StatelessWidget {
                 children: [
                   ColorFiltered(
                     colorFilter:
-                    ColorFilter.mode(Colors.white70, BlendMode.hue),
+                        ColorFilter.mode(Colors.white70, BlendMode.hue),
                     child: Image.network(
                       getYoutubeThumbnail(urlList[index]),
                       fit: BoxFit.fitHeight,
@@ -324,9 +305,11 @@ class ExcVidList extends StatelessWidget {
 class LstRtdList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    List<Doctor> newDrList =
+        Provider.of<DrListProvider>(context, listen: false).doctorList;
     return ListView.builder(
       scrollDirection: Axis.horizontal,
-      itemCount: drList.length,
+      itemCount: newDrList.length,
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
           child: Padding(
@@ -340,23 +323,22 @@ class LstRtdList extends StatelessWidget {
                   //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Image.network(
-                      drList[index].imgPath,
+                      newDrList[index].imgPath,
                       fit: BoxFit.fill,
                       height: 130,
                     ),
                     SizedBox(height: 5),
-                    Text(drList[index].name,
+                    Text(newDrList[index].name,
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w600)),
-                    Text(drList[index].department,
+                    Text(newDrList[index].email,
                         style: TextStyle(fontSize: 12)),
                     RatingBarIndicator(
-                      rating: drList[index].rate,
-                      itemBuilder: (context, index) =>
-                          Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                          ),
+                      rating: newDrList[index].rate as double,
+                      itemBuilder: (context, index) => Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
                       itemCount: 5,
                       itemSize: 20.0,
                       direction: Axis.horizontal,
@@ -375,9 +357,12 @@ class LstRtdList extends StatelessWidget {
 class LstCntList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    List<Doctor> newDrList =
+        Provider.of<DrListProvider>(context, listen: false).doctorList;
+    newDrList.shuffle();
     return ListView.builder(
       scrollDirection: Axis.horizontal,
-      itemCount: drList.length,
+      itemCount: newDrList.length,
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
           child: Padding(
@@ -397,7 +382,7 @@ class LstCntList extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Icon(
-                            drList[index].isFav
+                            newDrList[index].isFav
                                 ? Icons.favorite
                                 : Icons.favorite_border,
                             color: Colors.red,
@@ -407,7 +392,7 @@ class LstCntList extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(Icons.star, color: Colors.orange, size: 15),
-                              Text(drList[index].rate.toString(),
+                              Text(newDrList[index].rate.toString(),
                                   style: TextStyle(fontSize: 12)),
                             ],
                           ),
@@ -415,14 +400,14 @@ class LstCntList extends StatelessWidget {
                       ),
                       CircleAvatar(
                         radius: 25,
-                        foregroundImage: NetworkImage(drList[index].imgPath),
+                        foregroundImage: NetworkImage(newDrList[index].imgPath),
                       ),
                       Text(
-                        drList[index].name,
+                        newDrList[index].name,
                         style: TextStyle(fontSize: 10),
                         textAlign: TextAlign.center,
                       ),
-                      Text("\$ ${drList[index].salary} / hours",
+                      Text("\$ ${newDrList[index].salary} / hours",
                           style: TextStyle(fontSize: 8, color: Colors.green)),
                     ],
                   ),
@@ -456,11 +441,12 @@ class DoctorCard extends StatelessWidget {
   final double rate;
   final Function myFunction;
 
-  DoctorCard({required this.imgPath,
-    required this.name,
-    required this.department,
-    required this.rate,
-    required this.myFunction});
+  DoctorCard(
+      {required this.imgPath,
+      required this.name,
+      required this.department,
+      required this.rate,
+      required this.myFunction});
 
   @override
   Widget build(BuildContext context) {
@@ -471,9 +457,7 @@ class DoctorCard extends StatelessWidget {
           myFunction();
         },
         child: ClipRRect(
-          borderRadius: BorderRadius
-              .circular(20)
-              .w,
+          borderRadius: BorderRadius.circular(20).w,
           child: Container(
             // height: 50,
             color: Color(0xffeaeaea),
@@ -496,7 +480,7 @@ class DoctorCard extends StatelessWidget {
                   child: Text(
                     name,
                     style:
-                    TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
                   ),
                 ),
                 Text(department),
@@ -504,11 +488,10 @@ class DoctorCard extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 3.0).w,
                   child: RatingBarIndicator(
                     rating: rate,
-                    itemBuilder: (context, index) =>
-                        Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
+                    itemBuilder: (context, index) => Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
                     itemCount: 5,
                     itemSize: 30,
                     direction: Axis.horizontal,
@@ -530,20 +513,19 @@ class ContactedDoc extends StatelessWidget {
   final String name;
   final Function myFunction;
 
-  ContactedDoc({required this.rate,
-    required this.imgPath,
-    required this.salary,
-    required this.name,
-    required this.myFunction});
+  ContactedDoc(
+      {required this.rate,
+      required this.imgPath,
+      required this.salary,
+      required this.name,
+      required this.myFunction});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0).w,
       child: ClipRRect(
-        borderRadius: BorderRadius
-            .circular(20)
-            .w,
+        borderRadius: BorderRadius.circular(20).w,
         child: GestureDetector(
           onTap: () {
             myFunction();
@@ -578,7 +560,7 @@ class ContactedDoc extends StatelessWidget {
                   Text(
                     name,
                     style:
-                    TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
                   ),
                   Text(
                     "\$ ${salary}/hours",
