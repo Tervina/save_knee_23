@@ -6,9 +6,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
-userLogin(TextEditingController emailCtrl, TextEditingController passCtrl) {
+userLogin(
+    TextEditingController emailCtrl, TextEditingController passCtrl) async {
   final auth = FirebaseAuth.instance;
-  auth.signInWithEmailAndPassword(
+  await auth.signInWithEmailAndPassword(
       email: emailCtrl.text, password: passCtrl.text);
 }
 

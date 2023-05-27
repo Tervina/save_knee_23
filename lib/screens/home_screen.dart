@@ -1,12 +1,15 @@
-import 'package:firebase_auth/firebase_auth.dart';
+ase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:save_knee_23/models/constants.dart';
+import 'package:save_knee_23/models/doctor_list_provider.dart';
 import 'package:save_knee_23/screens/search_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../models/doctor_class.dart';
 import '../services/fetch_thumbnails.dart';
 import 'chats_list_screen.dart';
 import 'emg_screen.dart';
@@ -27,6 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
   final User user = FirebaseAuth.instance.currentUser!;
   List<OldDoctorClass> result = [];
   int _selectedIndex = 0;
+
+  //new dr list
+
 
   SearchDoc(String value) {
     result.clear();
@@ -55,40 +61,40 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             BottomNavigationBarItem(
               icon:
-                  Icon(FontAwesomeIcons.fileWaveform, color: kHomeScreenColor),
+              Icon(FontAwesomeIcons.fileWaveform, color: kHomeScreenColor),
               label: "EMG",
             )
           ],
           onTap: (int index) {
             switch (index) {
               case 0:
-                // only scroll to top when current index is selected.
+              // only scroll to top when current index is selected.
                 if (_selectedIndex == index) {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return ChatsListScreen();
-                  }));
+                        return ChatsListScreen();
+                      }));
                 }
                 break;
               case 1:
                 if (_selectedIndex == index) {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return XRayScreen();
-                  }));
+                        return XRayScreen();
+                      }));
                 }
                 break;
               case 2:
                 if (_selectedIndex == index) {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return EMGScreen();
-                  }));
+                        return EMGScreen();
+                      }));
                 }
                 break;
             }
             setState(
-              () => _selectedIndex = index,
+                  () => _selectedIndex = index,
             );
           },
         ),
@@ -96,14 +102,26 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             //Background
             Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
               decoration: kGradientDecoration2,
             ),
             //Top Background Bar
             Container(
-              height: MediaQuery.of(context).size.height * .21,
-              width: MediaQuery.of(context).size.width,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height * .21,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
               decoration: BoxDecoration(
                 color: kHomeScreenColor,
                 borderRadius: BorderRadius.only(
@@ -113,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             //Home screen
             Padding(
-              padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
+              padding: EdgeInsets.only(top: 20.h, right: 20.w, left: 20.w),
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Column(
@@ -167,10 +185,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             filled: true,
                             fillColor: Colors.white,
                             prefixIcon: IconButton(
-                              onPressed: () => Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return SearchScreen(result);
-                              })),
+                              onPressed: () =>
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                        return SearchScreen(result);
+                                      })),
                               icon: Icon(Icons.search),
                               color: Colors.blue.shade900,
                             ),
@@ -185,7 +204,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     // Scroll View
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.669,
+                      height: MediaQuery
+                          .of(context)
+                          .size
+                          .height * 0.669,
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
@@ -225,11 +247,10 @@ class RollList extends StatelessWidget {
   final bool hasSeeAllButton;
   final Widget tile;
 
-  RollList(
-      {required this.height,
-      required this.label,
-      required this.hasSeeAllButton,
-      required this.tile});
+  RollList({required this.height,
+    required this.label,
+    required this.hasSeeAllButton,
+    required this.tile});
 
   @override
   Widget build(BuildContext context) {
@@ -262,6 +283,9 @@ class RollList extends StatelessWidget {
 class ExcVidList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    List<Doctor> newDrList = Provider
+        .of<DrListProvider>(context, listen: false)
+        .doctorList;
     return ListView.builder(
       scrollDirection: Axis.horizontal,
       itemCount: urlList.length,
@@ -276,7 +300,7 @@ class ExcVidList extends StatelessWidget {
                 children: [
                   ColorFiltered(
                     colorFilter:
-                        ColorFilter.mode(Colors.white70, BlendMode.hue),
+                    ColorFilter.mode(Colors.white70, BlendMode.hue),
                     child: Image.network(
                       getYoutubeThumbnail(urlList[index]),
                       fit: BoxFit.fitHeight,
@@ -328,10 +352,11 @@ class LstRtdList extends StatelessWidget {
                         style: TextStyle(fontSize: 12)),
                     RatingBarIndicator(
                       rating: drList[index].rate,
-                      itemBuilder: (context, index) => Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      ),
+                      itemBuilder: (context, index) =>
+                          Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
                       itemCount: 5,
                       itemSize: 20.0,
                       direction: Axis.horizontal,
@@ -431,12 +456,11 @@ class DoctorCard extends StatelessWidget {
   final double rate;
   final Function myFunction;
 
-  DoctorCard(
-      {required this.imgPath,
-      required this.name,
-      required this.department,
-      required this.rate,
-      required this.myFunction});
+  DoctorCard({required this.imgPath,
+    required this.name,
+    required this.department,
+    required this.rate,
+    required this.myFunction});
 
   @override
   Widget build(BuildContext context) {
@@ -447,7 +471,9 @@ class DoctorCard extends StatelessWidget {
           myFunction();
         },
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(20).w,
+          borderRadius: BorderRadius
+              .circular(20)
+              .w,
           child: Container(
             // height: 50,
             color: Color(0xffeaeaea),
@@ -470,7 +496,7 @@ class DoctorCard extends StatelessWidget {
                   child: Text(
                     name,
                     style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
+                    TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
                   ),
                 ),
                 Text(department),
@@ -478,10 +504,11 @@ class DoctorCard extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 3.0).w,
                   child: RatingBarIndicator(
                     rating: rate,
-                    itemBuilder: (context, index) => Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                    ),
+                    itemBuilder: (context, index) =>
+                        Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
                     itemCount: 5,
                     itemSize: 30,
                     direction: Axis.horizontal,
@@ -503,19 +530,20 @@ class ContactedDoc extends StatelessWidget {
   final String name;
   final Function myFunction;
 
-  ContactedDoc(
-      {required this.rate,
-      required this.imgPath,
-      required this.salary,
-      required this.name,
-      required this.myFunction});
+  ContactedDoc({required this.rate,
+    required this.imgPath,
+    required this.salary,
+    required this.name,
+    required this.myFunction});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0).w,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(20).w,
+        borderRadius: BorderRadius
+            .circular(20)
+            .w,
         child: GestureDetector(
           onTap: () {
             myFunction();
@@ -550,7 +578,7 @@ class ContactedDoc extends StatelessWidget {
                   Text(
                     name,
                     style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
+                    TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
                   ),
                   Text(
                     "\$ ${salary}/hours",

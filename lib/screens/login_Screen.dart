@@ -97,8 +97,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       MyTextField(title: 'PASSWORD', controller: passCtrl),
                       SizedBox(height: 10.h),
                       ElevatedButton(
-                          onPressed: () {
-                            userLogin(emailCtrl, passCtrl);
+                          onPressed: () async {
+                            await userLogin(emailCtrl, passCtrl);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

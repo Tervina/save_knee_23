@@ -36,7 +36,6 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
     final bodyHeight = screenHeight -
         MediaQuery.of(context).padding.top -
         MediaQuery.of(context).padding.bottom;
@@ -145,11 +144,13 @@ class Message extends StatelessWidget {
     required this.curruntUserName,
     required this.otherUserName,
   });
+
   final bool isSentByMe;
   final String text;
   final String timeStamp;
   final String curruntUserName;
   final String otherUserName;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -194,7 +195,9 @@ class Message extends StatelessWidget {
 class MesaageStream extends StatelessWidget {
   final String curruntUserName;
   final String otherUserName;
+
   MesaageStream(this.curruntUserName, this.otherUserName);
+
   @override
   Widget build(BuildContext context) {
     var chats = _fireStore

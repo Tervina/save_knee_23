@@ -47,9 +47,9 @@ Future<String> doImageClassification(File? image) async {
 
     String label = recog["label"];
     double conf = recog["confidence"] as double;
+    conf = conf * 100;
 
-    result +=
-        '$label with confidence of ${conf.toStringAsPrecision(2) * 100} %\n';
+    result += '$label with confidence of ${conf.toStringAsPrecision(2)} %\n';
   });
   return result;
 }

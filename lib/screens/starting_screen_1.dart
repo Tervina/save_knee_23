@@ -39,7 +39,7 @@ class StartingScreen1 extends StatelessWidget {
                   radius: 90.r,
                   child: CircleAvatar(
                     backgroundImage: AssetImage(
-                      'assets/images/image.png',
+                      'assets/images/bg_circle.png',
                     ),
                     radius: 85.r,
                   ),
