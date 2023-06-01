@@ -1,7 +1,7 @@
 class Doctor {
   final String name;
   final String email;
-  final num rate;
+  final double rate;
   final String imgPath;
   final bool isFav;
   final String salary;

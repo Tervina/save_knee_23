@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:save_knee_23/models/chatlist_data_class.dart';
 import 'package:save_knee_23/models/doctor_class.dart';
@@ -18,13 +17,13 @@ class DrListProvider extends ChangeNotifier {
         phone: data['phone'],
         imgPath: data['imgPath'],
         isFav: data['isFav'],
-        rate: data['rate'],
+        rate: double.parse(data['rate']),
         salary: data['salary'],
       );
       _doctorList.add(doctor);
     }
     //for debugging and testing
-    //print(_doctorList.length);
+    print(_doctorList.length);
   }
 
   // getter for the doctors list
@@ -33,7 +32,6 @@ class DrListProvider extends ChangeNotifier {
   // fetch converstaions between dr and user
   Future<List<ChatListData>> getChatList() async {
     List<ChatListData> chatListData = [];
-    final _auth = FirebaseAuth.instance;
     final chat = FirebaseFirestore.instance;
 
     for (Doctor doctor in _doctorList) {

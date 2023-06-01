@@ -1,16 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:save_knee_23/models/constants.dart';
-import 'package:save_knee_23/models/doctor_list_provider.dart';
 import 'package:save_knee_23/screens/search_screen.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import '../models/doctor_class.dart';
-import '../services/fetch_thumbnails.dart';
+import '../widgets/last_contacted_list.dart';
+import '../widgets/last_rated_list.dart';
+import '../widgets/roll_list.dart';
+import '../widgets/video_list.dart';
 import 'chats_list_screen.dart';
 import 'emg_screen.dart';
 import 'xray_screen.dart';
@@ -118,7 +116,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             //Home screen
             Padding(
-              padding: EdgeInsets.only(top: 20.h, right: 20.w, left: 20.w),
+              padding: EdgeInsets.only(
+                  top: 20.h, right: 20.w, left: 20.w, bottom: 2.h),
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Column(
@@ -190,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     // Scroll View
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.669,
+                      height: MediaQuery.of(context).size.height * 0.63,
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
@@ -205,7 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 hasSeeAllButton: true,
                                 tile: LstRtdList()),
                             RollList(
-                                height: 120.h,
+                                height: 150.h,
                                 label: 'Last Contacted Doctors',
                                 hasSeeAllButton: true,
                                 tile: LstCntList()),
@@ -218,358 +217,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class RollList extends StatelessWidget {
-  final double height;
-  final String label;
-  final bool hasSeeAllButton;
-  final Widget tile;
-
-  RollList(
-      {required this.height,
-      required this.label,
-      required this.hasSeeAllButton,
-      required this.tile});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                label,
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20.sp),
-              ),
-              TextButton(
-                  onPressed: () {},
-                  child: hasSeeAllButton ? Text('see all >') : Text('')),
-            ],
-          ),
-          SizedBox(
-            height: height,
-            child: tile,
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class ExcVidList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: urlList.length,
-      itemBuilder: (BuildContext context, int index) {
-        return InkWell(
-          child: Padding(
-            padding: const EdgeInsets.all(2),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  ColorFiltered(
-                    colorFilter:
-                        ColorFilter.mode(Colors.white70, BlendMode.hue),
-                    child: Image.network(
-                      getYoutubeThumbnail(urlList[index]),
-                      fit: BoxFit.fitHeight,
-                    ),
-                  ),
-                  Icon(
-                    Icons.play_circle_outline_sharp,
-                    color: Color.fromRGBO(255, 255, 255, 30),
-                    size: 30,
-                  )
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-class LstRtdList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    List<Doctor> newDrList =
-        Provider.of<DrListProvider>(context, listen: false).doctorList;
-    return ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: newDrList.length,
-      itemBuilder: (BuildContext context, int index) {
-        return InkWell(
-          child: Padding(
-            padding: const EdgeInsets.all(2),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Container(
-                width: 180,
-                color: Colors.white,
-                child: Column(
-                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image.network(
-                      newDrList[index].imgPath,
-                      fit: BoxFit.fill,
-                      height: 130,
-                    ),
-                    SizedBox(height: 5),
-                    Text(newDrList[index].name,
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w600)),
-                    Text(newDrList[index].email,
-                        style: TextStyle(fontSize: 12)),
-                    RatingBarIndicator(
-                      rating: newDrList[index].rate as double,
-                      itemBuilder: (context, index) => Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      ),
-                      itemCount: 5,
-                      itemSize: 20.0,
-                      direction: Axis.horizontal,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-class LstCntList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    List<Doctor> newDrList =
-        Provider.of<DrListProvider>(context, listen: false).doctorList;
-    newDrList.shuffle();
-    return ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: newDrList.length,
-      itemBuilder: (BuildContext context, int index) {
-        return InkWell(
-          child: Padding(
-            padding: const EdgeInsets.all(2),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Container(
-                width: 90,
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Icon(
-                            newDrList[index].isFav
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            color: Colors.red,
-                            size: 15,
-                          ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(Icons.star, color: Colors.orange, size: 15),
-                              Text(newDrList[index].rate.toString(),
-                                  style: TextStyle(fontSize: 12)),
-                            ],
-                          ),
-                        ],
-                      ),
-                      CircleAvatar(
-                        radius: 25,
-                        foregroundImage: NetworkImage(newDrList[index].imgPath),
-                      ),
-                      Text(
-                        newDrList[index].name,
-                        style: TextStyle(fontSize: 10),
-                        textAlign: TextAlign.center,
-                      ),
-                      Text("\$ ${newDrList[index].salary} / hours",
-                          style: TextStyle(fontSize: 8, color: Colors.green)),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-Widget MyCard(String url) {
-  String id = url.substring(url.length - 11);
-  String urlLink = "https://img.youtube.com/vi/${id}/0.jpg";
-  return GestureDetector(
-    onTap: () {
-      launchUrl(Uri.parse(url));
-    },
-    child: Card(
-      child: Image.network("${urlLink}"),
-    ),
-  );
-}
-
-class DoctorCard extends StatelessWidget {
-  final String imgPath;
-  final String name;
-  final String department;
-  final double rate;
-  final Function myFunction;
-
-  DoctorCard(
-      {required this.imgPath,
-      required this.name,
-      required this.department,
-      required this.rate,
-      required this.myFunction});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0).w,
-      child: GestureDetector(
-        onTap: () {
-          myFunction();
-        },
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20).w,
-          child: Container(
-            // height: 50,
-            color: Color(0xffeaeaea),
-            width: 170.w,
-
-            /*decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20), color: Color(0xffeaeaea)
-                //0xffD9DAD6)
-                //(0xffE5E1DA),
-                ),*/
-            child: Column(
-              children: [
-                Image.network(
-                  imgPath,
-                  height: 110.h,
-                  fit: BoxFit.fitHeight,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 1.5).w,
-                  child: Text(
-                    name,
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
-                  ),
-                ),
-                Text(department),
-                Padding(
-                  padding: const EdgeInsets.only(top: 3.0).w,
-                  child: RatingBarIndicator(
-                    rating: rate,
-                    itemBuilder: (context, index) => Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                    ),
-                    itemCount: 5,
-                    itemSize: 30,
-                    direction: Axis.horizontal,
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ContactedDoc extends StatelessWidget {
-  final double rate;
-  final String imgPath;
-  final String salary;
-  final String name;
-  final Function myFunction;
-
-  ContactedDoc(
-      {required this.rate,
-      required this.imgPath,
-      required this.salary,
-      required this.name,
-      required this.myFunction});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0).w,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20).w,
-        child: GestureDetector(
-          onTap: () {
-            myFunction();
-          },
-          child: Container(
-            color: Color(0xffeaeaea),
-            width: 170.w,
-            child: Padding(
-              padding: const EdgeInsets.all(10).w,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(Icons.favorite_border, color: Colors.red),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.star,
-                            color: Colors.yellow,
-                          ),
-                          Text(rate.toString()),
-                        ],
-                      ),
-                    ],
-                  ),
-                  CircleAvatar(
-                    radius: 60.r,
-                    backgroundImage: NetworkImage(imgPath),
-                  ),
-                  Text(
-                    name,
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
-                  ),
-                  Text(
-                    "\$ ${salary}/hours",
-                    style: TextStyle(color: Colors.grey, fontSize: 20.sp),
-                  ),
-                ],
-              ),
-            ),
-          ),
         ),
       ),
     );

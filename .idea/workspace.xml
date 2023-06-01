@@ -1,12 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="77df0e9c-7717-4a31-874b-1b6b68115ded" name="Changes" comment="adjust xray UI">
+    <list default="true" id="77df0e9c-7717-4a31-874b-1b6b68115ded" name="Changes" comment="refresh new dr list">
+      <change afterPath="$PROJECT_DIR$/lib/widgets/last_contacted_list.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/widgets/last_rated_list.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/widgets/roll_list.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/widgets/video_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-05-20_11_01_PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-05-20_11_01_PM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/doctor_class.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/doctor_class.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/doctor_list_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/doctor_list_provider.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/home_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/splash_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/splash_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +111,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685176209706</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="refresh new dr list">
+      <created>1685176764359</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1685176764359</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -113,6 +134,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="adjust xray UI" />
-    <option name="LAST_COMMIT_MESSAGE" value="adjust xray UI" />
+    <MESSAGE value="refresh new dr list" />
+    <option name="LAST_COMMIT_MESSAGE" value="refresh new dr list" />
   </component>
 </project>

@@ -11,13 +11,13 @@ class SplashScreen extends StatelessWidget {
 
   Future<Widget> futureCall(context) async {
     Provider.of<DrListProvider>(context).loadDrList();
+    Future.delayed(Duration(seconds: 5));
     return Future.value(StartingScreen1());
   }
 
   @override
   Widget build(BuildContext context) {
     return EasySplashScreen(
-      durationInSeconds: 5,
       logo: Image.asset('assets/images/logo.png'),
       title: Text(
         "Save Knee",
