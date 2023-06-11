@@ -8,9 +8,8 @@ import '../models/doctor_list_provider.dart';
 class LstCntList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<Doctor> drList =
+    List<Doctor> newDrList =
         Provider.of<DrListProvider>(context, listen: false).doctorList;
-    List<Doctor> newDrList = drList..shuffle();
     return ListView.builder(
       scrollDirection: Axis.horizontal,
       itemCount: newDrList.length,

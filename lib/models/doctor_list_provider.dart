@@ -4,13 +4,15 @@ import 'package:save_knee_23/models/chatlist_data_class.dart';
 import 'package:save_knee_23/models/doctor_class.dart';
 
 class DrListProvider extends ChangeNotifier {
-  List<Doctor> _doctorList = [];
+  final List<Doctor> _doctorList = [];
+  int _timeListCounter = 0;
+  int _remindListCounter = 0;
 
-  // methid ti fetch doctors list from firebase
+  // method to fetch doctors list from firebase
   void loadDrList() async {
-    final _db = FirebaseFirestore.instance;
-    final _drData = await _db.collection('doctors').get();
-    for (var data in _drData.docs) {
+    final db = FirebaseFirestore.instance;
+    final drData = await db.collection('doctors').get();
+    for (var data in drData.docs) {
       final Doctor doctor = Doctor(
         name: data['name'],
         email: data['email'],
@@ -22,6 +24,7 @@ class DrListProvider extends ChangeNotifier {
       );
       _doctorList.add(doctor);
     }
+    _doctorList.shuffle();
     //for debugging and testing
     print(_doctorList.length);
   }
@@ -53,5 +56,22 @@ class DrListProvider extends ChangeNotifier {
       }
     }
     return chatListData;
+  }
+
+  // getter fot counters
+  int get timeListCounter => _timeListCounter;
+
+  int get remindListCounter => _remindListCounter;
+
+  // setter for time counter
+  void setTimeListCounter(int x) {
+    _timeListCounter = x;
+    notifyListeners();
+  }
+
+  // setter for remind counter
+  void setRemindListCounter(int x) {
+    _remindListCounter = x;
+    notifyListeners();
   }
 }

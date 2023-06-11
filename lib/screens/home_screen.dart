@@ -2,9 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:save_knee_23/models/constants.dart';
+import 'package:save_knee_23/models/doctor_list_provider.dart';
 import 'package:save_knee_23/screens/search_screen.dart';
 
+import '../models/doctor_class.dart';
 import '../widgets/last_contacted_list.dart';
 import '../widgets/last_rated_list.dart';
 import '../widgets/roll_list.dart';
@@ -26,14 +29,14 @@ class _HomeScreenState extends State<HomeScreen> {
   final searchController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   final User user = FirebaseAuth.instance.currentUser!;
-  List<OldDoctorClass> result = [];
+  List<Doctor> result = [];
   int _selectedIndex = 0;
 
   //new dr list
-
-  SearchDoc(String value) {
+  updateSearchList(String value) {
     result.clear();
-    for (OldDoctorClass doctor in drList) {
+    for (Doctor doctor
+        in Provider.of<DrListProvider>(context, listen: false).doctorList) {
       if (doctor.name.contains(value)) {
         result.add(doctor);
       }
@@ -133,9 +136,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("Hi, ${user!.displayName}!",
+                                Text("Hi, ${user.displayName}!",
                                     style: TextStyle(
-                                      color: Color(0xfffec102),
+                                      color: const Color(0xfffec102),
                                       fontSize: 28.sp,
                                       fontWeight: FontWeight.w500,
                                     )),
@@ -156,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               },
                               child: CircleAvatar(
                                 radius: 30.r,
-                                backgroundImage: NetworkImage(user!.photoURL!),
+                                backgroundImage: NetworkImage(user.photoURL!),
                               ),
                             ),
                           ]),
@@ -166,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 50.h,
                       child: TextField(
                         controller: searchController,
-                        onChanged: (value) => SearchDoc(value),
+                        onChanged: (value) => updateSearchList(value),
                         decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
@@ -175,14 +178,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                   MaterialPageRoute(builder: (context) {
                                 return SearchScreen(result);
                               })),
-                              icon: Icon(Icons.search),
+                              icon: const Icon(Icons.search),
                               color: Colors.blue.shade900,
                             ),
-                            suffixIcon: Icon(Icons.close, color: Colors.grey),
+                            suffixIcon:
+                                const Icon(Icons.close, color: Colors.grey),
                             hintText: "Search....",
-                            hintStyle: TextStyle(color: Colors.grey),
+                            hintStyle: const TextStyle(color: Colors.grey),
                             border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey),
+                              borderSide: const BorderSide(color: Colors.grey),
                               borderRadius: BorderRadius.circular(10.r),
                             )),
                       ),

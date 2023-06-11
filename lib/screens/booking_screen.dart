@@ -1,30 +1,91 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:save_knee_23/screens/appointment_screen.dart';
+import 'package:save_knee_23/widgets/doctor_container_2.dart';
 
-class BookingScreen extends StatefulWidget {
-  const BookingScreen({Key? key}) : super(key: key);
+import '../models/doctor_class.dart';
+import '../widgets/custom_appbar_2.dart';
+import 'appointment_screen.dart';
 
-  @override
-  State<BookingScreen> createState() => _BookingScreenState();
-}
+class BookingScreen extends StatelessWidget {
+  final Doctor doctor;
 
-class _BookingScreenState extends State<BookingScreen> {
+  BookingScreen(this.doctor);
+
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final bodyHeight = screenHeight -
-        MediaQuery.of(context).padding.top -
-        MediaQuery.of(context).padding.bottom;
-    return Scaffold(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: const Color(0xffDBF3FF),
+        body: Padding(
+          padding: EdgeInsets.all(20.h),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              CustomAppbar2(
+                  text: 'Booking...',
+                  onPressed: () {
+                    //for debugging and testing
+                    //print(_dates);
+                    Navigator.pop(context);
+                  }),
+              DoctorContainer2(doctor),
+              //ListView(),
+              Text('data'),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xff2545F9),
+                  fixedSize: Size(280.w, 50.h),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AppointmentScreen()));
+                },
+                child: Text(
+                  "Next availability on wed, 24 Feb",
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(10.h),
+                child: Text('OR'),
+              ),
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  //backgroundColor: Color(0xff2545F9),
+                  fixedSize: Size(280.w, 50.h),
+                ),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return AppointmentScreen();
+                  }));
+                },
+                child: Text(
+                  "Contact Clinic",
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    color: Color(0xff2545F9),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    /*return Scaffold(
       backgroundColor: const Color(0xffC7D6DD),
       body: Column(
         children: [
           Row(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 15).r,
+                padding: EdgeInsets.only(left: 15),
               ),
               Container(
                 decoration: BoxDecoration(
@@ -368,6 +429,6 @@ class _BookingScreenState extends State<BookingScreen> {
           ),
         ],
       ),
-    );
+    );*/
   }
 }

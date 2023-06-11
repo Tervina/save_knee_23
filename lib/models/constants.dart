@@ -6,6 +6,7 @@ Color kLogoLit = const Color(0xFF4942ce);
 Color kPrimaryColor = const Color(0xFF00174d);
 Color kHomeScreenColor = const Color(0xff0D235C);
 Color kButtonColor = const Color(0xff3E1E82);
+Color kBackgroundColor = const Color(0xffDBF3FF);
 
 TextStyle kButtonTextStyle = TextStyle(fontSize: 18.sp, color: Colors.white);
 
