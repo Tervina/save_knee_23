@@ -11,7 +11,7 @@ class SplashScreen extends StatelessWidget {
 
   Future<Widget> futureCall(context) async {
     Provider.of<DrListProvider>(context).loadDrList();
-    Future.delayed(Duration(seconds: 5));
+    await Future.delayed(Duration(seconds: 5));
     return Future.value(StartingScreen1());
   }
 

@@ -129,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 100.h,
                       child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Column(
@@ -139,14 +139,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Text("Hi, ${user.displayName}!",
                                     style: TextStyle(
                                       color: const Color(0xfffec102),
-                                      fontSize: 28.sp,
+                                      fontSize: 25.sp,
                                       fontWeight: FontWeight.w500,
                                     )),
                                 Text(
                                   "Find Your Doctor",
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 35.sp,
+                                      fontSize: 30.sp,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ],

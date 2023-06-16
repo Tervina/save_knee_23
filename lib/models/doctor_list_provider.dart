@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
-import 'package:save_knee_23/models/chatlist_data_class.dart';
+import 'package:flutter/material.dart';
 import 'package:save_knee_23/models/doctor_class.dart';
+
+import 'chatlist_data_class.dart';
 
 class DrListProvider extends ChangeNotifier {
   final List<Doctor> _doctorList = [];
+  final List<Doctor> _drChatList = [];
   int _timeListCounter = 0;
   int _remindListCounter = 0;
 
@@ -29,8 +31,30 @@ class DrListProvider extends ChangeNotifier {
     print(_doctorList.length);
   }
 
+  // method to fetch last contacted drs
+  Future loadLstCntDrList() async {
+    final chat = FirebaseFirestore.instance;
+    for (Doctor doctor in _doctorList) {
+      final data = await chat
+          .collection('chats')
+          .doc('Andrew Ashraf')
+          .collection(doctor.name)
+          .get();
+      if (data.docs.isEmpty) {
+        //print('new chat');
+      } else if (data.docs.isNotEmpty) {
+        _drChatList.add(doctor);
+        //print(data.docs.length);
+      }
+    }
+    //for debugging and testing
+    print(_drChatList.length);
+  }
+
   // getter for the doctors list
   List<Doctor> get doctorList => _doctorList;
+
+  List<Doctor> get drChatList => _drChatList;
 
   // fetch converstaions between dr and user
   Future<List<ChatListData>> getChatList() async {
@@ -44,7 +68,7 @@ class DrListProvider extends ChangeNotifier {
           .collection(doctor.name)
           .get();
       if (data.docs.isEmpty) {
-        print('new chat');
+        //print('new chat');
       } else if (data.docs.isNotEmpty) {
         final chatData = ChatListData(
           name: doctor.name,
@@ -52,7 +76,8 @@ class DrListProvider extends ChangeNotifier {
           imgPath: doctor.imgPath,
         );
         chatListData.add(chatData);
-        print(data.docs.length);
+        _drChatList.add(doctor);
+        //print(data.docs.length);
       }
     }
     return chatListData;

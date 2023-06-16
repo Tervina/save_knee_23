@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:save_knee_23/widgets/doctor_container_2.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models/doctor_class.dart';
 import '../widgets/custom_appbar_2.dart';
@@ -35,7 +36,7 @@ class BookingScreen extends StatelessWidget {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xff2545F9),
-                  fixedSize: Size(280.w, 50.h),
+                  fixedSize: Size(290.w, 50.h),
                 ),
                 onPressed: () {
                   Navigator.push(
@@ -58,12 +59,10 @@ class BookingScreen extends StatelessWidget {
               OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   //backgroundColor: Color(0xff2545F9),
-                  fixedSize: Size(280.w, 50.h),
+                  fixedSize: Size(290.w, 50.h),
                 ),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return AppointmentScreen();
-                  }));
+                  launch("tel:${doctor.phone}");
                 },
                 child: Text(
                   "Contact Clinic",

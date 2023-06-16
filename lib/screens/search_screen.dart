@@ -40,7 +40,7 @@ class SearchScreen extends StatelessWidget {
                   ),
                   Center(
                     child: Text(
-                      "Messages",
+                      "Search",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 25.sp,

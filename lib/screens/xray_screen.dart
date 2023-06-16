@@ -93,14 +93,14 @@ class _XRayScreenState extends State<XRayScreen> {
               Spacer(flex: 2),
               Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25.0).w,
+                    borderRadius: BorderRadius.circular(25.r),
                     gradient: LinearGradient(
                         colors: [kHomeScreenColor, Colors.black])),
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor: kHomeScreenColor,
-                        fixedSize: Size(200.w, 40.h)),
+                        fixedSize: Size(220.w, 40.h)),
                     onPressed: () {
                       showModalBottomSheet(
                           context: context,
@@ -119,7 +119,7 @@ class _XRayScreenState extends State<XRayScreen> {
               Container(
                 decoration: BoxDecoration(
                   color: kHomeScreenColor,
-                  borderRadius: BorderRadius.circular(25.0).w,
+                  borderRadius: BorderRadius.circular(25.r),
                 ),
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 child: ElevatedButton(

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,7 @@ class ChatsListScreen extends StatefulWidget {
 class _ChatsListScreenState extends State<ChatsListScreen> {
   List<Widget> ConvList = [];
   bool isLoaded = false;
+  final _auth = FirebaseAuth.instance;
 
   void updateConvList() async {
     List chatListData =
@@ -78,7 +80,8 @@ class _ChatsListScreenState extends State<ChatsListScreen> {
                       size: 50,
                     ),
                     onPressed: () {
-                      updateConvList();
+                      _auth.signOut();
+                      Navigator.popUntil(context, (route) => route.isFirst);
                     },
                   ),
                 ],
@@ -120,7 +123,12 @@ class _ChatsListScreenState extends State<ChatsListScreen> {
                   physics: const NeverScrollableScrollPhysics(),
                   children: ConvList,
                 ),
-                replacement: CircularProgressIndicator(),
+                replacement: Center(
+                  child: SizedBox(
+                      height: 50.h,
+                      width: 50.w,
+                      child: CircularProgressIndicator()),
+                ),
                 visible: isLoaded,
               ),
             ),

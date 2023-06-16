@@ -6,6 +6,7 @@ import '../models/constants.dart';
 class CustomAppBar extends StatelessWidget {
   final String title;
   final Function onPressed;
+
   CustomAppBar({required this.title, required this.onPressed});
 
   @override
@@ -22,7 +23,7 @@ class CustomAppBar extends StatelessWidget {
                 ShapeDecoration(shape: CircleBorder(), color: kHomeScreenColor),
             child: IconButton(
               onPressed: () {
-                onPressed;
+                onPressed();
               },
               icon: Icon(Icons.arrow_back_outlined,
                   size: 40.sp, color: Colors.white),
