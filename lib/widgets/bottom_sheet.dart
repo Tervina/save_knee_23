@@ -41,9 +41,9 @@ class CustomBottomSheet extends StatelessWidget {
                 ))),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 50.w),
+            padding: EdgeInsets.symmetric(horizontal: 45.w),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Column(
                   children: [
@@ -54,7 +54,7 @@ class CustomBottomSheet extends StatelessWidget {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(40..r)),
+                              borderRadius: BorderRadius.circular(40.r)),
                           clipBehavior: Clip.antiAliasWithSaveLayer,
                           child: Image(
                               image: AssetImage('assets/images/gallery.png'),
@@ -75,23 +75,16 @@ class CustomBottomSheet extends StatelessWidget {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25.0).w,
+                            borderRadius: BorderRadius.circular(40.r),
                           ),
                           clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                top: .04 * 800, left: .350 * 360),
-                            child: Image(
-                                image: AssetImage('assets/images/camera.jpg'),
-                                height: .06 * 800),
-                          ),
+                          child: Image(
+                              image: AssetImage('assets/images/camera.jpg'),
+                              height: 70.h),
                         )),
-                    Padding(
-                      padding: EdgeInsets.only(left: .35 * 360, top: .02 * 800),
-                      child: Text(
-                        "Camera",
-                        style: TextStyle(fontSize: 18.sp, color: Colors.white),
-                      ),
+                    Text(
+                      "Camera",
+                      style: TextStyle(fontSize: 18.sp, color: Colors.white),
                     ),
                   ],
                 ),
