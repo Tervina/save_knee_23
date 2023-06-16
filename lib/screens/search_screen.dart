@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:save_knee_23/models/constants.dart';
@@ -6,6 +7,7 @@ import '../models/doctor_class.dart';
 import '../widgets/doctor_container_1.dart';
 
 class SearchScreen extends StatelessWidget {
+  final _auth = FirebaseAuth.instance;
   final List<Doctor> result;
 
   SearchScreen(this.result, {super.key});
@@ -53,7 +55,10 @@ class SearchScreen extends StatelessWidget {
                       color: kHomeScreenColor,
                       size: 50.sp,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      _auth.signOut();
+                      Navigator.popUntil(context, (route) => route.isFirst);
+                    },
                   ),
                 ],
               ),
