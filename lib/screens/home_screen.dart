@@ -44,185 +44,198 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<DrListProvider>(context, listen: false).loadLCList();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          selectedFontSize: 0,
-          unselectedFontSize: 0,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.chat, color: kHomeScreenColor),
-              label: " Chat",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.xRay, color: kHomeScreenColor),
-              label: "X-Ray",
-            ),
-            BottomNavigationBarItem(
-              icon:
-                  Icon(FontAwesomeIcons.fileWaveform, color: kHomeScreenColor),
-              label: "EMG",
-            )
-          ],
-          onTap: (int index) {
-            switch (index) {
-              case 0:
-                // only scroll to top when current index is selected.
-                if (_selectedIndex == index) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (BuildContext context) {
-                    return ChatsListScreen();
-                  }));
+    return Consumer<DrListProvider>(
+      builder: (BuildContext context, drLP, Widget? child) {
+        return SafeArea(
+          child: Scaffold(
+            bottomNavigationBar: BottomNavigationBar(
+              selectedFontSize: 0,
+              unselectedFontSize: 0,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.chat, color: kHomeScreenColor),
+                  label: " Chat",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(FontAwesomeIcons.xRay, color: kHomeScreenColor),
+                  label: "X-Ray",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(FontAwesomeIcons.fileWaveform,
+                      color: kHomeScreenColor),
+                  label: "EMG",
+                )
+              ],
+              onTap: (int index) {
+                switch (index) {
+                  case 0:
+                    // only scroll to top when current index is selected.
+                    if (_selectedIndex == index) {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return ChatsListScreen();
+                      }));
+                    }
+                    break;
+                  case 1:
+                    if (_selectedIndex == index) {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return XRayScreen();
+                      }));
+                    }
+                    break;
+                  case 2:
+                    if (_selectedIndex == index) {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return EMGScreen();
+                      }));
+                    }
+                    break;
                 }
-                break;
-              case 1:
-                if (_selectedIndex == index) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (BuildContext context) {
-                    return XRayScreen();
-                  }));
-                }
-                break;
-              case 2:
-                if (_selectedIndex == index) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (BuildContext context) {
-                    return EMGScreen();
-                  }));
-                }
-                break;
-            }
-            setState(
-              () => _selectedIndex = index,
-            );
-          },
-        ),
-        body: Stack(
-          children: [
-            //Background
-            Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              decoration: kGradientDecoration2,
+                setState(
+                  () => _selectedIndex = index,
+                );
+              },
             ),
-            //Top Background Bar
-            Container(
-              height: MediaQuery.of(context).size.height * .21,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: kHomeScreenColor,
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(10.r),
-                    bottomRight: Radius.circular(10.r)),
-              ),
-            ),
-            //Home screen
-            Padding(
-              padding: EdgeInsets.only(
-                  top: 20.h, right: 20.w, left: 20.w, bottom: 2.h),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [
-                    //Top bar
-                    SizedBox(
-                      height: 100.h,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+            body: Stack(
+              children: [
+                //Background
+                Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: kGradientDecoration2,
+                ),
+                //Top Background Bar
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.21,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: kHomeScreenColor,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10.r),
+                        bottomRight: Radius.circular(10.r)),
+                  ),
+                ),
+                //Home screen
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: 20.h, right: 20.w, left: 20.w, bottom: 2.h),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      children: [
+                        //Top bar
+                        SizedBox(
+                          height: 100.h,
+                          child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Hi, ${user.displayName}!",
-                                    style: TextStyle(
-                                      color: const Color(0xfffec102),
-                                      fontSize: 25.sp,
-                                      fontWeight: FontWeight.w500,
-                                    )),
-                                Text(
-                                  "Find Your Doctor",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 30.sp,
-                                      fontWeight: FontWeight.bold),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("Hi, ${user.displayName}!",
+                                        style: TextStyle(
+                                          color: const Color(0xfffec102),
+                                          fontSize: 25.sp,
+                                          fontWeight: FontWeight.w500,
+                                        )),
+                                    Text(
+                                      "Find Your Doctor",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 30.sp,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
                                 ),
+                                InkWell(
+                                  onLongPress: () {
+                                    _auth.signOut();
+                                    Navigator.popUntil(
+                                        context, (route) => route.isFirst);
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 30.r,
+                                    backgroundImage:
+                                        NetworkImage(user.photoURL!),
+                                  ),
+                                ),
+                              ]),
+                        ),
+                        //Search Field
+                        SizedBox(
+                          height: 50.h,
+                          child: TextField(
+                            controller: searchController,
+                            onChanged: (value) => updateSearchList(value),
+                            decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                prefixIcon: IconButton(
+                                  onPressed: () => Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return SearchScreen(result);
+                                  })),
+                                  icon: const Icon(Icons.search),
+                                  color: Colors.blue.shade900,
+                                ),
+                                suffixIcon:
+                                    const Icon(Icons.close, color: Colors.grey),
+                                hintText: "Search....",
+                                hintStyle: const TextStyle(color: Colors.grey),
+                                border: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(10.r),
+                                )),
+                          ),
+                        ),
+                        // Scroll View
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.63,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                RollList(
+                                    height: 100.h,
+                                    label: 'Continue Excercising',
+                                    hasSeeAllButton: false,
+                                    tile: ExcVidList()),
+                                RollList(
+                                    height: 200.h,
+                                    label: 'Last Rated Doctors',
+                                    hasSeeAllButton: true,
+                                    tile: LstRtdList()),
+                                RollList(
+                                    height: 150.h,
+                                    label: 'Last Contacted Doctors',
+                                    hasSeeAllButton: true,
+                                    tile: LstCntList(drLP.lstConList)),
                               ],
                             ),
-                            InkWell(
-                              onLongPress: () {
-                                _auth.signOut();
-                                Navigator.popUntil(
-                                    context, (route) => route.isFirst);
-                              },
-                              child: CircleAvatar(
-                                radius: 30.r,
-                                backgroundImage: NetworkImage(user.photoURL!),
-                              ),
-                            ),
-                          ]),
-                    ),
-                    //Search Field
-                    SizedBox(
-                      height: 50.h,
-                      child: TextField(
-                        controller: searchController,
-                        onChanged: (value) => updateSearchList(value),
-                        decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            prefixIcon: IconButton(
-                              onPressed: () => Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return SearchScreen(result);
-                              })),
-                              icon: const Icon(Icons.search),
-                              color: Colors.blue.shade900,
-                            ),
-                            suffixIcon:
-                                const Icon(Icons.close, color: Colors.grey),
-                            hintText: "Search....",
-                            hintStyle: const TextStyle(color: Colors.grey),
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(10.r),
-                            )),
-                      ),
-                    ),
-                    // Scroll View
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.63,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            RollList(
-                                height: 100.h,
-                                label: 'Continue Excercising',
-                                hasSeeAllButton: false,
-                                tile: ExcVidList()),
-                            RollList(
-                                height: 200.h,
-                                label: 'Last Rated Doctors',
-                                hasSeeAllButton: true,
-                                tile: LstRtdList()),
-                            RollList(
-                                height: 150.h,
-                                label: 'Last Contacted Doctors',
-                                hasSeeAllButton: true,
-                                tile: LstCntList()),
-                          ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

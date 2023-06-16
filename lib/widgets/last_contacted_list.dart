@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:save_knee_23/screens/chat_screen.dart';
 
 import '../models/doctor_class.dart';
 import '../models/doctor_list_provider.dart';
 
 class LstCntList extends StatelessWidget {
+  final List<Doctor> newDrList;
+
+  LstCntList(this.newDrList);
+
   @override
   Widget build(BuildContext context) {
-    List<Doctor> newDrList =
-        Provider.of<DrListProvider>(context, listen: false).doctorList;
     return ListView.builder(
       scrollDirection: Axis.horizontal,
       itemCount: newDrList.length,
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
+          onTap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (BuildContext context) {
+              return ChatScreen(otherUserName: newDrList[index].name);
+            }));
+          },
           child: Padding(
             padding: EdgeInsets.all(2.h),
             child: ClipRRect(
@@ -60,7 +69,7 @@ class LstCntList extends StatelessWidget {
                       ),
                       Text("\$ ${newDrList[index].salary} / hours",
                           style:
-                              TextStyle(fontSize: 8.sp, color: Colors.green)),
+                          TextStyle(fontSize: 8.sp, color: Colors.green)),
                     ],
                   ),
                 ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:save_knee_23/widgets/doctor_container_2.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models/doctor_class.dart';
 import '../widgets/custom_appbar_2.dart';
@@ -46,7 +47,7 @@ class BookingScreen extends StatelessWidget {
                 child: Text(
                   "Next availability on wed, 24 Feb",
                   style: TextStyle(
-                    fontSize: 20.sp,
+                    fontSize: 19.sp,
                     color: Colors.white,
                   ),
                 ),
@@ -61,14 +62,12 @@ class BookingScreen extends StatelessWidget {
                   fixedSize: Size(280.w, 50.h),
                 ),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return AppointmentScreen();
-                  }));
+                  launch("tel://${doctor.phone}");
                 },
                 child: Text(
                   "Contact Clinic",
                   style: TextStyle(
-                    fontSize: 20.sp,
+                    fontSize: 19.sp,
                     color: Color(0xff2545F9),
                   ),
                 ),

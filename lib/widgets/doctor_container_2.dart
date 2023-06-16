@@ -25,8 +25,8 @@ class DoctorContainer2 extends StatelessWidget {
               Column(
                 children: [
                   SizedBox(
-                      height: 100.h,
-                      width: 100.w,
+                      height: 90.h,
+                      width: 90.w,
                       child: Hero(
                         tag: doctor.name,
                         child: Image.network(
@@ -58,7 +58,7 @@ class DoctorContainer2 extends StatelessWidget {
                         Text(
                           doctor.name,
                           style: TextStyle(
-                            fontSize: 20.sp,
+                            fontSize: 17.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -71,7 +71,7 @@ class DoctorContainer2 extends StatelessWidget {
                     Text(
                       doctor.email,
                       style: TextStyle(
-                        fontSize: 15.sp,
+                        fontSize: 13.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

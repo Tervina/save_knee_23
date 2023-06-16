@@ -100,7 +100,7 @@ class _XRayScreenState extends State<XRayScreen> {
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor: kHomeScreenColor,
-                        fixedSize: Size(200.w, 40.h)),
+                        fixedSize: Size(220.w, 40.h)),
                     onPressed: () {
                       showModalBottomSheet(
                           context: context,

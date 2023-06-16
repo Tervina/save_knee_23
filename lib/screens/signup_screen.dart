@@ -143,9 +143,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ],
                       ),
                       ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             //create new user
-                            userCreate(
+                            await userCreate(
                               nameCtrl: nameCtrl,
                               emailCtrl: emailCtrl,
                               passCtrl: passCtrl,

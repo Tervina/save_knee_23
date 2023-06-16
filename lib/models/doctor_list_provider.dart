@@ -5,6 +5,7 @@ import 'package:save_knee_23/models/doctor_class.dart';
 
 class DrListProvider extends ChangeNotifier {
   final List<Doctor> _doctorList = [];
+  final List<Doctor> _lstConList = [];
   int _timeListCounter = 0;
   int _remindListCounter = 0;
 
@@ -29,14 +30,35 @@ class DrListProvider extends ChangeNotifier {
     print(_doctorList.length);
   }
 
+  // method to fetch last contacted doctors list from firebase
+  void loadLCList() async {
+    final chat = FirebaseFirestore.instance;
+    for (Doctor doctor in _doctorList) {
+      final data = await chat
+          .collection('chats')
+          .doc('Andrew Ashraf')
+          .collection(doctor.name)
+          .get();
+      if (data.docs.isEmpty) {
+        print('new');
+      } else if (data.docs.isNotEmpty) {
+        lstConList.add(doctor);
+        print('added new');
+      }
+    }
+    print(lstConList.length);
+  }
+
   // getter for the doctors list
   List<Doctor> get doctorList => _doctorList;
+
+  // getter for the lc doctors list
+  List<Doctor> get lstConList => _lstConList;
 
   // fetch converstaions between dr and user
   Future<List<ChatListData>> getChatList() async {
     List<ChatListData> chatListData = [];
     final chat = FirebaseFirestore.instance;
-
     for (Doctor doctor in _doctorList) {
       final data = await chat
           .collection('chats')
