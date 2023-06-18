@@ -79,7 +79,7 @@ class CustomBottomSheet extends StatelessWidget {
                           ),
                           clipBehavior: Clip.antiAliasWithSaveLayer,
                           child: Image(
-                              image: AssetImage('assets/images/camera.jpg'),
+                              image: AssetImage('assets/images/camera.png'),
                               height: 70.h),
                         )),
                     Text(

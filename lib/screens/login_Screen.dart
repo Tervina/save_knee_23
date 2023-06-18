@@ -107,11 +107,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               setState(() {
                                 showSpinner = true;
                               });
-                              await Provider.of<DrListProvider>(context,
-                                      listen: false)
-                                  .loadLstCntDrList();
                               try {
                                 await userLogin(emailCtrl, passCtrl);
+                                await Provider.of<DrListProvider>(context,
+                                        listen: false)
+                                    .loadLstCntDrList();
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(

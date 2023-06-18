@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:save_knee_23/models/doctor_class.dart';
 
@@ -33,11 +34,14 @@ class DrListProvider extends ChangeNotifier {
 
   // method to fetch last contacted drs
   Future loadLstCntDrList() async {
+    final _auth = FirebaseAuth.instance;
+    final current_user = _auth.currentUser;
+    final String currentUserName = current_user!.displayName!;
     final chat = FirebaseFirestore.instance;
     for (Doctor doctor in _doctorList) {
       final data = await chat
           .collection('chats')
-          .doc('Andrew Ashraf')
+          .doc(currentUserName)
           .collection(doctor.name)
           .get();
       if (data.docs.isEmpty) {
@@ -58,13 +62,16 @@ class DrListProvider extends ChangeNotifier {
 
   // fetch converstaions between dr and user
   Future<List<ChatListData>> getChatList() async {
+    final _auth = FirebaseAuth.instance;
+    final current_user = _auth.currentUser;
+    final String currentUserName = current_user!.displayName!;
     List<ChatListData> chatListData = [];
     final chat = FirebaseFirestore.instance;
 
     for (Doctor doctor in _doctorList) {
       final data = await chat
           .collection('chats')
-          .doc('Andrew Ashraf')
+          .doc(currentUserName)
           .collection(doctor.name)
           .get();
       if (data.docs.isEmpty) {
