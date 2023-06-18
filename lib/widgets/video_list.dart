@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models/constants.dart';
 import '../services/fetch_thumbnails.dart';
@@ -12,6 +13,10 @@ class ExcVidList extends StatelessWidget {
       itemCount: urlList.length,
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
+          onTap: () {
+            Uri url = Uri.parse(urlList[index]);
+            launchUrl(url);
+          },
           child: Padding(
             padding: EdgeInsets.all(2.h),
             child: ClipRRect(
